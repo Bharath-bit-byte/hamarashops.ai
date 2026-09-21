@@ -1,1 +1,212 @@
-[]
+[
+  {
+    "id": "prod-001",
+    "slug": "cognitive-automation-engine",
+    "title": "Cognitive Automation Engine",
+    "tagline": "Autonomous Process Intelligence & Complex Workflow Automation",
+    "description": "Enterprise-grade cognitive automation engine delivering 80% reduction in manual processing tasks and 99.9% decision precision across high-volume operational workflows.",
+    "category": "Cognitive AI",
+    "icon": "cpu",
+    "features": [
+      "End-to-End Task Orchestration",
+      "Unstructured Document Parsing",
+      "Human-in-the-Loop Validation",
+      "Sub-second Decision Latency"
+    ],
+    "benefits": [
+      "80% reduction in manual operational tasks",
+      "99.9% decision precision in cognitive workflows",
+      "Zero-downtime serverless auto-scaling"
+    ],
+    "useCases": [
+      "Prior authorization review in healthcare",
+      "Regulatory compliance auditing in finance",
+      "Automated back-office invoice and claims triage"
+    ],
+    "metrics": [
+      "80% Manual Task Reduction",
+      "99.9% Processing Accuracy",
+      "< 120ms Latency"
+    ],
+    "targetAudience": [
+      "Enterprise Operations Leaders",
+      "Financial Institutions",
+      "Healthcare Systems"
+    ]
+  },
+  {
+    "id": "prod-002",
+    "slug": "conversational-commerce-concierge",
+    "title": "Conversational Commerce Concierge",
+    "tagline": "Hyper-Personalized 1:1 Omnichannel Shopping Assistant",
+    "description": "AI-powered shopping concierge guiding enterprise retail customers from product discovery to purchase with real-time vector recommendations and contextual lifestyle advice.",
+    "category": "Conversational AI",
+    "icon": "shopping-bag",
+    "features": [
+      "Multi-turn Contextual Conversation",
+      "Vector-based Semantic Catalog Search",
+      "Garment Fit & Recipe Advice",
+      "Drive-Thru & PoS Integration"
+    ],
+    "benefits": [
+      "32% increase in customer conversion",
+      "45% higher basket size relevance",
+      "24/7 autonomous retail support"
+    ],
+    "useCases": [
+      "QSR Drive-Thru ordering (e.g. Wendy's FreshAI)",
+      "Complex apparel & grocery searches",
+      "Real-time up-sell & cross-sell guidance"
+    ],
+    "metrics": [
+      "32% Conversion Uplift",
+      "24/7 Support Uptime",
+      "10K+ Predictions/Sec"
+    ],
+    "targetAudience": [
+      "Retail Enterprises",
+      "QSR Chains",
+      "E-Commerce Marketplaces"
+    ]
+  },
+  {
+    "id": "prod-003",
+    "slug": "defensive-ai-suite",
+    "title": "Defensive AI Cybersecurity Suite",
+    "tagline": "Autonomous Threat Neutralization & Gateway Shield",
+    "description": "Zero-latency defensive neural network monitoring high-volume transaction gateways and API endpoints to autonomously neutralize cyber threats with zero downtime.",
+    "category": "Security AI",
+    "icon": "shield-check",
+    "features": [
+      "Real-time Anomaly Detection",
+      "Adaptive Rate Limiting & Bot Mitigation",
+      "Autonomous Threat Neutralization",
+      "Zero False Positive Quarantine"
+    ],
+    "benefits": [
+      "99.99% threat neutralization rate",
+      "60% reduced risk exposure",
+      "Zero latency penalty on legitimate transactions"
+    ],
+    "useCases": [
+      "Financial transaction stream scoring",
+      "API Gateway ingress protection",
+      "Distributed DDoS and credential stuffing defense"
+    ],
+    "metrics": [
+      "99.99% Threat Neutralization",
+      "60% Risk Reduction",
+      "< 5ms Ingress Overhead"
+    ],
+    "targetAudience": [
+      "Chief Information Security Officers",
+      "Fintech Platforms",
+      "Banking Networks"
+    ]
+  },
+  {
+    "id": "prod-004",
+    "slug": "mlops-hub",
+    "title": "MLOps Enterprise Hub",
+    "tagline": "Serverless Model Lifecycle Management & Continuous Deployment",
+    "description": "Enterprise orchestration platform accelerating release velocity for over 200+ production AI models with automated CI/CD and Google Cloud Run multi-zone scaling.",
+    "category": "Platform Infrastructure",
+    "icon": "workflow",
+    "features": [
+      "Automated Model Registry & Versioning",
+      "Dynamic Canary & Blue-Green Deployments",
+      "Continuous Drift & Telemetry Monitoring",
+      "Multi-Cloud & Google Cloud Run Native"
+    ],
+    "benefits": [
+      "5x acceleration in model release velocity",
+      "Unified telemetry over 200+ models",
+      "Automated rollbacks on anomaly detection"
+    ],
+    "useCases": [
+      "Multi-model serving & load balancing",
+      "Continuous fine-tuning on domain data",
+      "Latency and throughput optimization"
+    ],
+    "metrics": [
+      "5x Release Velocity",
+      "200+ Models Managed",
+      "99.99% Infrastructure Uptime"
+    ],
+    "targetAudience": [
+      "AI Engineering Teams",
+      "Enterprise Architects",
+      "ML Engineers"
+    ]
+  },
+  {
+    "id": "prod-005",
+    "slug": "multilingual-nlp-engine",
+    "title": "Multilingual NLP Translation Engine",
+    "tagline": "Domain-Specific Neural Translation & Sentiment Parsing",
+    "description": "Enterprise translation and sentiment extraction pipeline supporting 100+ languages with deep vertical domain dictionaries for financial, legal, and medical accuracy.",
+    "category": "Language AI",
+    "icon": "globe",
+    "features": [
+      "100+ Languages Supported",
+      "Domain-Specific Terminology Dictionaries",
+      "Context-Aware Nuance & Sentiment Scoring",
+      "Streaming Real-Time Translation API"
+    ],
+    "benefits": [
+      "Global market localization without accuracy loss",
+      "Unified multilingual customer support",
+      "Preservation of legal and medical terminology"
+    ],
+    "useCases": [
+      "Cross-border customer service translation",
+      "Multilingual contract review",
+      "Global brand sentiment aggregation"
+    ],
+    "metrics": [
+      "100+ Languages",
+      "98.5% BLEU Benchmark Score",
+      "Streaming Sub-second Output"
+    ],
+    "targetAudience": [
+      "Global Multinationals",
+      "Customer Experience Leaders",
+      "Media & Localization Teams"
+    ]
+  },
+  {
+    "id": "prod-006",
+    "slug": "semantic-search-engine",
+    "title": "Vertex AI Semantic Search & Synthesis",
+    "tagline": "Deep Document Vector Retrieval & Synthesis",
+    "description": "High-dimensional vector indexing engine providing instant natural language query and summarization across millions of unstructured documents, blueprints, and archives.",
+    "category": "Search & Discovery",
+    "icon": "search",
+    "features": [
+      "Vector Embedding & Semantic Reranking",
+      "Multi-decade Archive Natural Language Queries",
+      "Source Citation & Hallucination Guardrails",
+      "Multi-modal CAD & Image Spec Search"
+    ],
+    "benefits": [
+      "Instant answers across decades of corporate knowledge",
+      "Elimination of search abandonment ($2T global cost)",
+      "Verified sourcing and reference tracking"
+    ],
+    "useCases": [
+      "LIBOR contract phase-out identification",
+      "FDA drug submission cross-referencing",
+      "CAD blueprint and engineering spec search"
+    ],
+    "metrics": [
+      "1PB+ Data Ingested",
+      "< 250ms Retrieval Latency",
+      "100% Sourced Citations"
+    ],
+    "targetAudience": [
+      "Legal & Compliance Teams",
+      "R&D Engineers",
+      "Life Sciences Researchers"
+    ]
+  }
+]

@@ -1,1 +1,102 @@
-[]
+[
+  {
+    "id": "sol-001",
+    "slug": "wendys-freshai-automation",
+    "title": "Wendy's FreshAI Drive-Thru & Store Automation",
+    "subtitle": "Conversational PoS AI for Frictionless Food Ordering",
+    "summary": "Pioneering Generative AI drive-thru ordering solution designed to revolutionize quick-service restaurant operations, eliminating order errors and accelerating throughput.",
+    "industry": "Retail",
+    "type": "Conversational QSR Automation",
+    "keyBenefits": [
+      "99% Order Accuracy even in high ambient vehicle noise",
+      "22-second average reduction in drive-thru wait times",
+      "Seamless real-time integration with existing kitchen and POS systems"
+    ],
+    "components": [
+      "PaLM 2 / Gemini Audio Ingestion Engine",
+      "Custom Restaurant Menu & Pronunciation Lexicon",
+      "Point-of-Sale Kitchen Automation Adapter",
+      "Multi-channel Noise-Cancellation Acoustic Pipeline"
+    ]
+  },
+  {
+    "id": "sol-002",
+    "slug": "libor-contract-intelligence",
+    "title": "LIBOR Transition & Financial Contract Intelligence",
+    "subtitle": "Deep Regulatory Document Ingestion & Cross-Referencing",
+    "summary": "Autonomous semantic analysis of legacy financial contracts to identify LIBOR dependencies, calculate capital requirement shifts, and draft transition amendments.",
+    "industry": "Financial Services",
+    "type": "Legal & Contract Analytics",
+    "keyBenefits": [
+      "Zero manual review needed on 100,000+ legacy bond and loan contracts",
+      "100% compliance adherence with Basel III capital directives",
+      "Instant counter-party risk exposure calculations across trade books"
+    ],
+    "components": [
+      "Vector Document Ingestion & OCR Normalization",
+      "Basel III Capital Requirement Formula Engine",
+      "Legal Clause Synthesizer & Amendment Generator",
+      "Cryptographic Audit Trail Verification Ledger"
+    ]
+  },
+  {
+    "id": "sol-003",
+    "slug": "medpalm-clinical-concierge",
+    "title": "MedPaLM Clinical Discharge & Patient Concierge",
+    "subtitle": "Automated Clinical Documentation & Empathetic Patient Navigation",
+    "summary": "HIPAA-compliant generative clinical workflow automating discharge summaries, physician letters, and 24/7 empathetic patient recovery guidance.",
+    "industry": "Healthcare & Life Sciences",
+    "type": "Clinical Workflow & Patient Care",
+    "keyBenefits": [
+      "Saves clinicians 2.5 hours per shift on repetitive discharge paperwork",
+      "Reduces hospital 30-day readmission rates by 18%",
+      "Full HIPAA, HITRUST, and SOC2 Type II compliance"
+    ],
+    "components": [
+      "MedPaLM Clinical Knowledge Model",
+      "Vertex AI Private EHR Semantic Search",
+      "Multilingual Empathetic Patient Portal Agent",
+      "Protected Health Information (PHI) De-identification Gateway"
+    ]
+  },
+  {
+    "id": "sol-004",
+    "slug": "media-archive-deep-discovery",
+    "title": "Media Archive Deep Vector Discovery",
+    "subtitle": "Natural Language Search over Decades of Broadcast Archives",
+    "summary": "Unifying multi-decade video archives, audio scripts, and film metadata into a real-time semantic vector index for instantaneous scene and content discovery.",
+    "industry": "Media & Entertainment",
+    "type": "Multi-Modal Content Retrieval",
+    "keyBenefits": [
+      "Instantaneous scene retrieval from millions of hours of legacy footage",
+      "Automated marketing clip and trailer generation in seconds",
+      "95% reduction in asset licensing and footage search costs"
+    ],
+    "components": [
+      "Multi-modal Video & Audio Embedding Pipelines",
+      "Automated Script Transcription & Timestamp Alignment",
+      "High-Dimensional Vector Similarity Index",
+      "Studio Clip Render & Export Microservice"
+    ]
+  },
+  {
+    "id": "sol-005",
+    "slug": "industrial-predictive-maintenance",
+    "title": "Industrial Predictive Maintenance & CAD Spec Query",
+    "subtitle": "IoT Fault Telemetry & Natural Language Blueprint Search",
+    "summary": "Eliminating factory downtime through real-time vibration and sensor anomaly detection paired with natural language queries across complex 3D CAD blueprints.",
+    "industry": "Manufacturing",
+    "type": "Industrial IoT & CAD AI",
+    "keyBenefits": [
+      "Zero unplanned assembly line downtime via 14-day early failure detection",
+      "Instant component matching across 50,000+ CAD schematics",
+      "Automated ERP parts replacement triggers before catastrophic failure"
+    ],
+    "components": [
+      "Edge IoT Telemetry Streaming & Vibration Sensor Ingestion",
+      "CAD Schematic Vision & Engineering Vector Parser",
+      "ERP Spare Parts Reordering Webhook Engine",
+      "Acoustic & Thermal Anomaly Neural Classifier"
+    ]
+  }
+]

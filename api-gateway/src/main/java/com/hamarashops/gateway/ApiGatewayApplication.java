@@ -66,7 +66,8 @@ public class ApiGatewayApplication {
                         "/api/v1/case-studies", "/api/v1/case-studies/**",
                         "/api/v1/testimonials", "/api/v1/testimonials/**",
                         "/api/v1/integrations", "/api/v1/integrations/**",
-                        "/api/v1/metrics", "/api/v1/metrics/**"
+                        "/api/v1/metrics", "/api/v1/metrics/**",
+                        "/api/v1/assistant", "/api/v1/assistant/**"
                 ).uri(contentServiceUrl))
                 .route("business-service-routes", r -> r.path(
                         "/api/v1/industries", "/api/v1/industries/**",

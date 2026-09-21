@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "id": "srv-001",
+    "slug": "ai-architecture-advisory",
+    "name": "Enterprise AI Architecture Advisory",
+    "shortDescription": "Strategic roadmap and architecture design for enterprise Generative AI adoption and LLM orchestration.",
+    "fullDescription": "Comprehensive advisory service guiding enterprise CIOs and engineering leaders through foundational model selection, vector infrastructure, and governance frameworks.",
+    "deliverables": [
+      "Enterprise AI Readiness & Maturity Assessment",
+      "Multi-Cloud Target Architecture Blueprint",
+      "Security, Privacy & Data Compliance Matrix",
+      "Cost & Inference Throughput Projection Model"
+    ],
+    "serviceType": "Strategic Consulting"
+  },
+  {
+    "id": "srv-002",
+    "slug": "model-fine-tuning-rag",
+    "name": "Custom Model Fine-Tuning & RAG Engineering",
+    "shortDescription": "Domain-specific model customization with Retrieval-Augmented Generation for proprietary enterprise datasets.",
+    "fullDescription": "Deep engineering engagement adapting foundation models with vector embeddings and proprietary industry datasets to achieve 99.9% domain accuracy without data leakage.",
+    "deliverables": [
+      "Domain-Specific Fine-Tuned Weights & Quantized Models",
+      "Vector Database Indexing & High-Throughput RAG Pipeline",
+      "Hallucination Benchmark & Automated Evaluation Suite",
+      "Continuous Monitoring & Telemetry Integration"
+    ],
+    "serviceType": "Engineering & Integration"
+  },
+  {
+    "id": "srv-003",
+    "slug": "cloud-run-deployment",
+    "name": "Google Cloud Run Serverless Deployment",
+    "shortDescription": "Production-ready zero-downtime microservices containerization and automated CI/CD deployment on Google Cloud Run.",
+    "fullDescription": "End-to-end container packaging, Spring Cloud Gateway configuration, multi-zone latency optimization, and automated Cloud Run deployment with instant autoscaling.",
+    "deliverables": [
+      "Multi-Stage Docker & Alpine Container Images",
+      "Automated Google Cloud Build & Deployment Pipelines",
+      "Multi-Zone High-Availability Cluster Configuration",
+      "24/7 SRE Monitoring & Alerting Setup"
+    ],
+    "serviceType": "Cloud Infrastructure"
+  }
+]

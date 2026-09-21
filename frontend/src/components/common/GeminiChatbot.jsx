@@ -18,6 +18,9 @@ import {
   Square,
   Calendar,
   Play,
+  Box,
+  Layers,
+  CheckCircle2,
 } from 'lucide-react';
 import { streamAssistantResponse, INITIAL_SUGGESTIONS } from '../../services/aiAssistantService';
 import AppointmentModal from './AppointmentModal';
@@ -26,19 +29,46 @@ import './GeminiChatbot.css';
 const welcomeMessage = {
   role: 'assistant',
   source: 'concierge',
-  text: "Hello! 👋 I'm your **HamaraShops.ai Advanced NLP Assistant**.\n\nI can answer complex technical inquiries, explain our **6 core cross-industry AI use cases**, detail our **5 enterprise industry verticals**, showcase our **official videos**, share details about our **leadership & CEO Dheerendar Srivastav**, or **schedule an engineering consultation**. Ask me anything or tap a topic below!",
+  text: "Hello! I'm your **HamaraShops.ai Advanced NLP Assistant**.\n\nI am synchronized with our **Spring Cloud API Gateway** and microservices. I can answer complex technical inquiries, detail our **6 enterprise AI products**, explain our **5 industry verticals**, showcase our **official videos**, share details about our **leadership & CEO Dheerendar Srivastav**, or **schedule an engineering consultation**. Ask me anything or tap a topic below!",
   actions: [
-    { label: '📅 Book Appointment', path: 'open-appointment' },
-    { label: '⚡ Core AI Use Cases', path: '/use-cases' },
-    { label: '🎬 Watch Company Video', path: '/#company-video-section' },
-    { label: '👔 Meet Our CEO', path: '/about#ceo-section' },
+    { label: 'Explore AI Products', path: '/use-cases' },
+    { label: '5 Industry Verticals', path: '/industries' },
+    { label: 'Book Consultation', path: 'open-appointment' },
+    { label: 'Meet Our CEO', path: '/about#ceo-section' },
   ],
   suggestions: INITIAL_SUGGESTIONS,
 };
 
+// Clean text of emojis, non-standard bullets, and corrupted mojibake (e.g. mojibake bullet/emojis)
+function sanitizeChatText(rawText) {
+  if (!rawText) return '';
+  return rawText
+    // 1. Corrupted UTF-8 bullet point: \u00e2\u20ac\u00a2 -> standard "- "
+    .replace(/\u00e2\u20ac\u00a2/g, '- ')
+    // 2. Corrupted UTF-8 dashes: \u00e2\u20ac\u2013 or \u00e2\u20ac\u2014 -> " - "
+    .replace(/\u00e2\u20ac[\u2013\u2014]/g, ' - ')
+    // 3. Other 3-byte corrupted symbols starting with \u00e2 (like \u00e2\u0161\u00a1)
+    .replace(/\u00e2[^\s]*/g, '')
+    // 4. 4-byte corrupted emojis starting with \u00f0 (like \u00f0\u0178...)
+    .replace(/\u00f0[^\s]*/g, '')
+    // 5. Standard unicode bullets
+    .replace(/\u2022/g, '-')
+    // 6. Any actual Unicode emojis
+    .replace(/[\u{1F300}-\u{1FAFF}]/gu, '')
+    .replace(/[\u{2600}-\u{27BF}]/gu, '')
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '');
+}
+
+function sanitizeLabel(label) {
+  if (!label) return '';
+  return sanitizeChatText(label).replace(/\s+/g, ' ').trim();
+}
+
 // Formats rich markdown: code blocks, inline code, bold, bullet points, numbered lists
 function formatMessageContent(text, isCurrentlyStreaming = false) {
   if (!text) return null;
+
+  const sanitizedText = sanitizeChatText(text);
 
   // Split by code blocks first
   const codeBlockRegex = /```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g;
@@ -46,16 +76,16 @@ function formatMessageContent(text, isCurrentlyStreaming = false) {
   let lastIndex = 0;
   let match;
 
-  while ((match = codeBlockRegex.exec(text)) !== null) {
+  while ((match = codeBlockRegex.exec(sanitizedText)) !== null) {
     if (match.index > lastIndex) {
-      segments.push({ type: 'text', content: text.slice(lastIndex, match.index) });
+      segments.push({ type: 'text', content: sanitizedText.slice(lastIndex, match.index) });
     }
     segments.push({ type: 'code', lang: match[1] || 'text', code: match[2] });
     lastIndex = codeBlockRegex.lastIndex;
   }
 
-  if (lastIndex < text.length) {
-    segments.push({ type: 'text', content: text.slice(lastIndex) });
+  if (lastIndex < sanitizedText.length) {
+    segments.push({ type: 'text', content: sanitizedText.slice(lastIndex) });
   }
 
   return (
@@ -86,15 +116,15 @@ function formatMessageContent(text, isCurrentlyStreaming = false) {
         const lines = segment.content.split('\n');
         return lines.map((line, lIdx) => {
           const trimmed = line.trim();
-          const isBullet = trimmed.startsWith('•') || trimmed.startsWith('-');
+          const isBullet = trimmed.startsWith('\u2022') || trimmed.startsWith('-') || trimmed.startsWith('*');
           const isNumbered = /^\d+\.\s/.test(trimmed);
 
           let cleanLine = trimmed;
           let prefix = null;
 
           if (isBullet) {
-            cleanLine = trimmed.replace(/^[•\-]\s*/, '');
-            prefix = <span className="text-[#ff6b6b] text-xs font-bold leading-5 mr-1.5">•</span>;
+            cleanLine = trimmed.replace(/^[\u2022\-\*]\s*/, '');
+            prefix = <span className="text-[#ff6b6b] text-xs font-bold leading-5 mr-1.5">-</span>;
           } else if (isNumbered) {
             const numMatch = trimmed.match(/^(\d+\.)\s*(.*)/);
             if (numMatch) {
@@ -253,6 +283,8 @@ export default function GeminiChatbot() {
               text: finalResponse.text,
               actions: finalResponse.actions || [],
               suggestions: finalResponse.suggestions || [],
+              productCards: finalResponse.productCards || [],
+              solutionCards: finalResponse.solutionCards || [],
             },
           ]);
           setStreamingText('');
@@ -268,8 +300,8 @@ export default function GeminiChatbot() {
           source: 'concierge',
           text: "I experienced a momentary connection interruption. You can explore our core use cases or schedule an appointment directly!",
           actions: [
-            { label: '📅 Book Appointment', path: 'open-appointment' },
-            { label: '⚡ Core AI Use Cases', path: '/use-cases' },
+            { label: 'Book Appointment', path: 'open-appointment' },
+            { label: 'Core AI Use Cases', path: '/use-cases' },
             { label: 'Explore Industries', path: '/industries' },
           ],
         },
@@ -291,8 +323,8 @@ export default function GeminiChatbot() {
             source: 'generative',
             text: streamingText + ' [Response stopped]',
             actions: [
-              { label: '📅 Book Appointment', path: 'open-appointment' },
-              { label: '⚡ All Use Cases', path: '/use-cases' },
+              { label: 'Book Appointment', path: 'open-appointment' },
+              { label: 'All Use Cases', path: '/use-cases' },
             ],
             suggestions: INITIAL_SUGGESTIONS.slice(0, 3),
           },
@@ -326,7 +358,7 @@ export default function GeminiChatbot() {
 
     window.speechSynthesis.cancel();
     // Clean markdown asterisks and URLs for speech
-    const cleanText = text.replace(/[*#`•\-_]/g, ' ').replace(/\s+/g, ' ').trim();
+    const cleanText = sanitizeChatText(text).replace(/[*#`\-_]/g, ' ').replace(/\s+/g, ' ').trim();
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.rate = 1.0;
     utterance.pitch = 1.0;
@@ -465,7 +497,7 @@ export default function GeminiChatbot() {
                         />
                         <div className="flex-1 min-w-0">
                           <div className="text-xs font-bold text-white truncate">Dheerendar Srivastav</div>
-                          <div className="text-[10px] text-[#ffb3b0] font-mono">Founder & CEO • HamaraShops.ai</div>
+                          <div className="text-[10px] text-[#ffb3b0] font-mono">Founder & CEO | HamaraShops.ai</div>
                         </div>
                         <button
                           type="button"
@@ -475,6 +507,91 @@ export default function GeminiChatbot() {
                           <span>Meet CEO</span>
                           <ArrowRight size={11} />
                         </button>
+                      </div>
+                    )}
+
+                    {/* Structured Product Cards Grid */}
+                    {message.role === 'assistant' && message.productCards && message.productCards.length > 0 && (
+                      <div className="gemini-product-cards-container my-3 space-y-2.5">
+                        {message.productCards.map((prod) => (
+                          <div key={prod.id || prod.slug} className="gemini-product-card rounded-2xl p-3.5 bg-[#0a1628]/90 border border-[#ff6b6b]/30 shadow-lg">
+                            <div className="flex items-start justify-between gap-2 mb-1.5">
+                              <div className="flex items-center gap-2">
+                                <div className="w-6 h-6 rounded-lg bg-[#ff6b6b]/15 flex items-center justify-center text-[#ff6b6b]">
+                                  <Box size={13} />
+                                </div>
+                                <h4 className="text-xs font-bold text-white leading-tight">{prod.title}</h4>
+                              </div>
+                              <span className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#4cd6ff]/10 text-[#4cd6ff] border border-[#4cd6ff]/30 shrink-0">
+                                {prod.category}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-300 leading-relaxed mb-2">{prod.tagline || prod.description}</p>
+                            {prod.metrics && prod.metrics.length > 0 && (
+                              <div className="flex flex-wrap gap-1.5 mb-2">
+                                {prod.metrics.map((m, mIdx) => (
+                                  <span key={mIdx} className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#1f2838] text-emerald-300 border border-emerald-500/20">
+                                    {m}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            <div className="flex items-center justify-between pt-1 border-t border-[#3c475a]/40">
+                              <span className="text-[10px] text-slate-400 font-mono">Content Microservice</span>
+                              <button
+                                type="button"
+                                onClick={() => handleActionClick('/use-cases')}
+                                className="gemini-card-link text-[10px] font-semibold text-[#ff6b6b] hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+                              >
+                                <span>Explore Capability</span>
+                                <ArrowRight size={10} />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Structured Solution Cards Grid */}
+                    {message.role === 'assistant' && message.solutionCards && message.solutionCards.length > 0 && (
+                      <div className="gemini-solution-cards-container my-3 space-y-2.5">
+                        {message.solutionCards.map((sol) => (
+                          <div key={sol.id || sol.slug} className="gemini-solution-card rounded-2xl p-3.5 bg-[#0a1628]/90 border border-[#4cd6ff]/30 shadow-lg">
+                            <div className="flex items-start justify-between gap-2 mb-1.5">
+                              <div className="flex items-center gap-2">
+                                <div className="w-6 h-6 rounded-lg bg-[#4cd6ff]/15 flex items-center justify-center text-[#4cd6ff]">
+                                  <Layers size={13} />
+                                </div>
+                                <h4 className="text-xs font-bold text-white leading-tight">{sol.title}</h4>
+                              </div>
+                              <span className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#ff6b6b]/10 text-[#ffb3b0] border border-[#ff6b6b]/30 shrink-0">
+                                {sol.industry}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-300 leading-relaxed mb-2">{sol.subtitle || sol.summary}</p>
+                            {sol.keyBenefits && sol.keyBenefits.length > 0 && (
+                              <ul className="space-y-1 mb-2">
+                                {sol.keyBenefits.slice(0, 2).map((b, bIdx) => (
+                                  <li key={bIdx} className="text-[10px] text-slate-300 flex items-start gap-1.5">
+                                    <CheckCircle2 size={11} className="text-emerald-400 shrink-0 mt-0.5" />
+                                    <span>{b}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                            <div className="flex items-center justify-between pt-1 border-t border-[#3c475a]/40">
+                              <span className="text-[10px] text-slate-400 font-mono">{sol.type || 'Enterprise Blueprint'}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleActionClick('/industries')}
+                                className="gemini-card-link text-[10px] font-semibold text-[#4cd6ff] hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+                              >
+                                <span>View Solution</span>
+                                <ArrowRight size={10} />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     )}
 
@@ -488,7 +605,7 @@ export default function GeminiChatbot() {
                             onClick={() => handleActionClick(act.path)}
                             className="gemini-action-btn"
                           >
-                            <span>{act.label}</span>
+                            <span>{sanitizeLabel(act.label)}</span>
                             <ArrowRight size={13} />
                           </button>
                         ))}
@@ -533,17 +650,20 @@ export default function GeminiChatbot() {
                   <span>Suggested next steps:</span>
                 </div>
                 <div className="gemini-suggestions-list">
-                  {activeSuggestions.slice(0, 4).map((sug, sIdx) => (
-                    <button
-                      key={sIdx}
-                      type="button"
-                      onClick={() => handleSend(sug)}
-                      className="gemini-chip"
-                      disabled={isStreaming}
-                    >
-                      {sug}
-                    </button>
-                  ))}
+                  {activeSuggestions.slice(0, 4).map((sug, sIdx) => {
+                    const cleanChip = sanitizeLabel(sug);
+                    return (
+                      <button
+                        key={sIdx}
+                        type="button"
+                        onClick={() => handleSend(cleanChip)}
+                        className="gemini-chip"
+                        disabled={isStreaming}
+                      >
+                        {cleanChip}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -582,7 +702,7 @@ export default function GeminiChatbot() {
                 </button>
               )}
             </form>
-            <p className="gemini-disclaimer">NLP Neural Streaming Engine • Multi-Turn Memory • No Key Required</p>
+            <p className="gemini-disclaimer">NLP Neural Streaming Engine | Multi-Turn Memory | No Key Required</p>
           </section>
         )}
 

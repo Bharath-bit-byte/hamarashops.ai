@@ -6,7 +6,7 @@ spring:
         - id: content-service-routes
           uri: ${CONTENT_SERVICE_URL}
           predicates:
-            - Path=/api/v1/products,/api/v1/products/**,/api/v1/solutions,/api/v1/solutions/**,/api/v1/services,/api/v1/services/**,/api/v1/insights,/api/v1/insights/**,/api/v1/company,/api/v1/company/**,/api/v1/partners,/api/v1/partners/**,/api/v1/search,/api/v1/search/**,/api/v1/case-studies,/api/v1/case-studies/**,/api/v1/testimonials,/api/v1/testimonials/**,/api/v1/integrations,/api/v1/integrations/**,/api/v1/metrics,/api/v1/metrics/**
+            - Path=/api/v1/products,/api/v1/products/**,/api/v1/solutions,/api/v1/solutions/**,/api/v1/services,/api/v1/services/**,/api/v1/insights,/api/v1/insights/**,/api/v1/company,/api/v1/company/**,/api/v1/partners,/api/v1/partners/**,/api/v1/search,/api/v1/search/**,/api/v1/case-studies,/api/v1/case-studies/**,/api/v1/testimonials,/api/v1/testimonials/**,/api/v1/integrations,/api/v1/integrations/**,/api/v1/metrics,/api/v1/metrics/**,/api/v1/assistant,/api/v1/assistant/**
 
         # Route 2: Business Service
         - id: business-service-routes

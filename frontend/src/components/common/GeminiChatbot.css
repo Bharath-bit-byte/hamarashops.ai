@@ -476,6 +476,35 @@
   to { transform: rotate(360deg); }
 }
 
+.gemini-product-cards-container,
+.gemini-solution-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.gemini-product-card,
+.gemini-solution-card {
+  transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.gemini-product-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 107, 107, 0.6);
+  box-shadow: 0 8px 24px rgba(255, 107, 107, 0.15);
+}
+
+.gemini-solution-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(76, 214, 255, 0.6);
+  box-shadow: 0 8px 24px rgba(76, 214, 255, 0.15);
+}
+
+.gemini-card-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 640px) {
   .gemini-chatbot { right: 16px; bottom: 16px; }
   .gemini-panel { height: min(600px, calc(100vh - 80px)); margin-bottom: 10px; }

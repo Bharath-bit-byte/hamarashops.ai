@@ -28,3 +28,9 @@ export const ContactApi = {
   submitInquiry: (payload) => apiClient.post('/contact/inquire', payload),
   scheduleAppointment: (payload) => apiClient.post('/contact/appointment', payload),
 };
+
+export const AssistantApi = {
+  getContext: () => apiClient.get('/assistant/context'),
+  getSuggestions: () => apiClient.get('/assistant/suggestions'),
+};
+
