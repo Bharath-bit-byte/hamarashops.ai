@@ -31,11 +31,11 @@ export default function NotFound() {
             <span>Return to Home</span>
           </Link>
           <Link
-            to="/products"
+            to="/industries"
             className="px-6 py-3 rounded-xl bg-[#1a1c20] text-white border border-[#3c475a] font-bold text-sm hover:border-[#ff6b6b]/50 transition-colors inline-flex items-center gap-2"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Explore Products</span>
+            <span>Explore Industries</span>
           </Link>
         </div>
       </div>

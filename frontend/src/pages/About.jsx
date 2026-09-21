@@ -143,11 +143,12 @@ export default function About() {
 
         {/* Meet Our CEO / Leadership Section */}
         <motion.div
+          id="ceo-section"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-16 scroll-mt-28"
         >
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#ff6b6b]/10 border border-[#ff6b6b]/30 text-[#ffb3b0] text-xs font-mono mb-3 uppercase tracking-widest">

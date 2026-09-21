@@ -46,6 +46,15 @@ export default function Contact() {
     loadContactInfo();
   }, []);
 
+  useEffect(() => {
+    const handleOpen = () => setIsAppointmentOpen(true);
+    window.addEventListener('open-appointment-modal', handleOpen);
+    if (window.location.hash === '#appointment') {
+      setIsAppointmentOpen(true);
+    }
+    return () => window.removeEventListener('open-appointment-modal', handleOpen);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fullName.trim() || !email.trim()) {
@@ -242,9 +251,10 @@ export default function Contact() {
                           <p className="text-xs text-slate-300 font-normal">Business & technical evaluation inquiries</p>
                         </div>
                         <button
+                          id="appointment"
                           type="button"
                           onClick={() => setIsAppointmentOpen(true)}
-                          className="px-4 py-2.5 rounded-xl bg-[#ff6b6b]/10 border border-[#ff6b6b]/40 text-[#ff6b6b] hover:bg-[#ff6b6b]/20 font-mono text-xs flex items-center gap-2 shrink-0 transition-colors cursor-pointer"
+                          className="px-4 py-2.5 rounded-xl bg-[#ff6b6b]/10 border border-[#ff6b6b]/40 text-[#ff6b6b] hover:bg-[#ff6b6b]/20 font-mono text-xs flex items-center gap-2 shrink-0 transition-colors cursor-pointer scroll-mt-28"
                         >
                           <Calendar className="w-4 h-4" />
                           <span>Schedule Appointment</span>

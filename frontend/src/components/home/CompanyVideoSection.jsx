@@ -17,7 +17,7 @@ export const COMPANY_VIDEO_POSTER = YOUTUBE_THUMBNAIL_URL;
 
 export default function CompanyVideoSection() {
   return (
-    <section id="company-video-section" className="py-16 px-6 bg-[#0c0e12] border-b border-[#3c475a]/30 relative overflow-hidden">
+    <section id="company-video-section" className="py-16 px-6 bg-[#0c0e12] border-b border-[#3c475a]/30 relative overflow-hidden scroll-mt-28">
       <div className="max-w-6xl mx-auto relative z-10">
         
         {/* 1. COMPANY TAGLINE */}

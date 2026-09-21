@@ -72,6 +72,15 @@ export default function Header() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const handleOpenAppointmentModal = () => {
+      setAppointmentModalOpen(true);
+      setMobileMenuOpen(false);
+    };
+    window.addEventListener('open-appointment-modal', handleOpenAppointmentModal);
+    return () => window.removeEventListener('open-appointment-modal', handleOpenAppointmentModal);
+  }, []);
+
   const handleNavClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setMobileMenuOpen(false);
