@@ -50,7 +50,7 @@ const teamVideos = [
 
 export default function TeamVideosSection() {
   return (
-    <section id="our-journey" className="py-24 px-6 relative bg-radial-depth z-20 overflow-hidden border-t border-[#3c475a]/20">
+    <section id="our-journey" className="py-24 px-6 relative bg-radial-depth z-20 overflow-hidden border-t border-[#3c475a]/20 scroll-mt-28">
       {/* Glow Backdrop */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#ff6b6b]/5 blur-[140px] pointer-events-none rounded-full" />
 
