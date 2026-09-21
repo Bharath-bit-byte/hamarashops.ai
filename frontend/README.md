@@ -1,5 +1,15 @@
 # React + Vite
 
+## Gemini assistant
+
+The site includes a floating Gemini chat assistant. To enable responses, copy `.env.example` to `.env`, add a Gemini API key from Google AI Studio, and restart Vite:
+
+```bash
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+The assistant uses Gemini's free-tier API model by default. Because Vite exposes `VITE_` variables in the browser, use a restricted development key and move the request behind a server endpoint before production.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

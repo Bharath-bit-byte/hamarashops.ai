@@ -1,4 +1,4 @@
-# Logs
+https://github.com/Bharath-bit-byte/hamarashops.ai.git# Logs
 logs
 *.log
 npm-debug.log*
@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*

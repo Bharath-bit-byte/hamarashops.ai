@@ -5,14 +5,24 @@ import Footer from './components/common/Footer';
 
 // Scroll to top helper for route changes and page reloads
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (hash) {
+      setTimeout(() => {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
 
   return null;
 }
@@ -37,6 +47,7 @@ import SalesTerms from './pages/SalesTerms';
 import NotFound from './pages/NotFound';
 
 import ScrollToTopButton from './components/common/ScrollToTopButton';
+import GeminiChatbot from './components/common/GeminiChatbot';
 
 export default function App() {
   return (
@@ -70,6 +81,7 @@ export default function App() {
       </main>
       <Footer />
       <ScrollToTopButton />
+      <GeminiChatbot />
     </div>
   );
 }
