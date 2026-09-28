@@ -1,0 +1,82 @@
+[
+  {
+    "id": "part-001",
+    "name": "REDINGTON",
+    "category": "Enterprise Distribution Partner",
+    "type": "Technology Partner",
+    "description": "Strategic distribution and technology alliance partner.",
+    "website": "https://hamarashops.com"
+  },
+  {
+    "id": "part-002",
+    "name": "Microsoft",
+    "category": "Cloud & Technology Partner",
+    "type": "Technology Partner",
+    "description": "Cloud infrastructure and AI service integration partner.",
+    "website": "https://hamarashops.com"
+  },
+  {
+    "id": "part-003",
+    "name": "Adobe",
+    "category": "Digital Experience Partner",
+    "type": "Technology Partner",
+    "description": "Enterprise digital content and experience technology partner.",
+    "website": "https://hamarashops.com"
+  },
+  {
+    "id": "part-004",
+    "name": "Google Cloud",
+    "category": "Cloud Compute Partner",
+    "type": "Technology Partner",
+    "description": "Cloud Run, GPU infrastructure, and scalable hosting partner.",
+    "website": "https://hamarashops.com"
+  },
+  {
+    "id": "part-005",
+    "name": "ORACLE",
+    "category": "Enterprise Systems Partner",
+    "type": "Technology Partner",
+    "description": "Enterprise database and cloud infrastructure alliance partner.",
+    "website": "https://hamarashops.com"
+  },
+  {
+    "id": "part-006",
+    "name": "OpenAI",
+    "category": "LLM & Foundation Models",
+    "type": "AI Research Alliance",
+    "description": "Research foundation model ecosystem and generative AI frameworks.",
+    "website": "https://openai.com"
+  },
+  {
+    "id": "part-007",
+    "name": "Google AI",
+    "category": "Deep Learning Research",
+    "type": "AI Research Alliance",
+    "description": "Advanced neural architecture research and algorithmic innovations.",
+    "website": "https://ai.google"
+  },
+  {
+    "id": "part-008",
+    "name": "TensorFlow",
+    "category": "Open-Source Machine Learning",
+    "type": "AI Research Alliance",
+    "description": "Production machine learning platform and neural model framework.",
+    "website": "https://tensorflow.org"
+  },
+  {
+    "id": "part-009",
+    "name": "PyTorch",
+    "category": "Deep Learning Framework",
+    "type": "AI Research Alliance",
+    "description": "Dynamic neural network computing framework and research ecosystem.",
+    "website": "https://pytorch.org"
+  },
+  {
+    "id": "part-010",
+    "name": "Hugging Face",
+    "category": "Transformer Model Hub",
+    "type": "AI Research Alliance",
+    "description": "Open-source NLP models and transformer architecture repository.",
+    "website": "https://huggingface.co"
+  }
+]

@@ -1,0 +1,11 @@
+target/
+.git/
+.gitignore
+.gitattributes
+.idea/
+.settings/
+.project
+.classpath
+README.md
+Dockerfile
+cloud.yml

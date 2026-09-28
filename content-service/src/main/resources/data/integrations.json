@@ -1,0 +1,38 @@
+[
+  {
+    "id": "int-001",
+    "slug": "rest-api-gateway",
+    "name": "REST API Gateway & Spring Cloud",
+    "category": "API Gateway",
+    "description": "Standardized REST integration via Spring Cloud Gateway with low-latency load balancing.",
+    "status": "Active",
+    "icon": "api"
+  },
+  {
+    "id": "int-002",
+    "slug": "direct-gateway-routing",
+    "name": "Direct Gateway Routing",
+    "category": "Service Architecture",
+    "description": "High-throughput direct HTTP routing and resilience orchestration for microservice ecosystems.",
+    "status": "Active",
+    "icon": "network"
+  },
+  {
+    "id": "int-003",
+    "slug": "edge-ai-iot-integration",
+    "name": "Edge AI & IoT Integration",
+    "category": "IoT Connectors",
+    "description": "Real-time edge sensor data streaming and telemetry ingestion.",
+    "status": "Active",
+    "icon": "cpu"
+  },
+  {
+    "id": "int-004",
+    "slug": "semantic-search-retrieval",
+    "name": "Semantic Search & Retrieval",
+    "category": "AI Search",
+    "description": "Vector-based semantic indexing and unstructured query retrieval.",
+    "status": "Active",
+    "icon": "search"
+  }
+]

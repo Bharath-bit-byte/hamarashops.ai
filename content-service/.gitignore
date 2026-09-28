@@ -1,0 +1,18 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IDE ###
+.idea
+.ds_store
+*.iws
+*.iml
+*.ipr
+.factorypath
+
+### Eclipse ###
+.settings/
+
+### LOGS ###
+*.log

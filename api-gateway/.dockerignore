@@ -1,0 +1,10 @@
+target/
+.git/
+.gitignore
+.gitattributes
+README.md
+.classpath
+.project
+.settings/
+*.log
+cloud.yml

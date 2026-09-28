@@ -1,0 +1,284 @@
+[
+  {
+    "id": "ind-retail",
+    "slug": "retail",
+    "name": "Retail",
+    "subtitle": "Creative Assistance, Conversational Commerce & POS AI Solutions",
+    "description": "Generative AI solutions transforming the retail value chain, modernizing store experiences, automating customer service, and driving omnichannel growth.",
+    "category": "Retail",
+    "overviewStats": [
+      { "label": "Sustainable Products", "value": "61% of consumers willing to pay more for sustainable products" },
+      { "label": "Brand Openness", "value": "57% of consumers open to buying from new brands" },
+      { "label": "Social Inspiration", "value": "75% of Gen Z shoppers use social media for purchase inspiration" },
+      { "label": "Ad Spend Growth", "value": "Retail media ad spend to reach $160B by 2027" },
+      { "label": "Search Abandonment", "value": "Search abandonment costs $2 trillion annually" }
+    ],
+    "useCases": [
+      {
+        "category": "Creative Assistance",
+        "title": "Creative Assistance",
+        "description": "Empower retail creative teams to create bespoke images and creative content for campaigns, digital commerce display pages, and social media.",
+        "examples": ["Product imagery, copy & attribution", "Marketing copy and imagery", "Social media campaign asset generation"]
+      },
+      {
+        "category": "Conversational Commerce",
+        "title": "Conversational Commerce",
+        "description": "Build personalized search and contextual conversational experiences to provide real-time customized shopping.",
+        "examples": ["Complex fashion searches with influencer styling tips", "Complex grocery searches with lifestyle recommendations", "Personalized 1:1 product recommendations"]
+      },
+      {
+        "category": "PoS Assistance",
+        "title": "PoS Assistance (QSR)",
+        "description": "Piloting groundbreaking AI solutions (e.g. Wendy's FreshAI) designed to revolutionize quick service restaurants and store operations.",
+        "examples": ["Drive-thru order automation", "In-store PoS associate assistance", "Frictionless customer service experiences"]
+      },
+      {
+        "category": "Customer Service Automation",
+        "title": "Customer Service Automation",
+        "description": "Utilizing LLMs and conversational AI to help customers get answers with less human intervention, summarizing conversations, and automating tasks.",
+        "examples": ["Advice on garment fit & sizing", "Recipe ingredient recommendations", "DIY tool & hardware advice"]
+      },
+      {
+        "category": "Developer Assistance",
+        "title": "Developer Assistance",
+        "description": "Assisting developer code efficiency to build and deploy retail services rapidly.",
+        "examples": ["Automated API code generation", "Catalog schema mapping", "Code optimization"]
+      },
+      {
+        "category": "Advanced & Future Use Cases",
+        "title": "Advanced / Future Use Cases",
+        "description": "Next-generation retail intelligence operating across the entire supply chain.",
+        "examples": ["Advanced Demand Forecasting", "1:1 Personalization at Scale", "Back office operations & Associate productivity", "Merchandising insights & optimization", "Supplier insights"]
+      }
+    ],
+    "aiComponents": [
+      "Imagen: Text-to-image generation model for product copy, imagery, and classification",
+      "PaLM: Text generation model to create targeted marketing campaigns",
+      "Workspace / Sheets integration for personalized content generation",
+      "Content Translation & Google Ads Integration for customer insights"
+    ],
+    "businessMetrics": [
+      "Improved Customer Satisfaction",
+      "Increase in Conversion Rates",
+      "Faster Time to Market",
+      "Improved ROI"
+    ]
+  },
+  {
+    "id": "ind-financial-services",
+    "slug": "financial-services",
+    "name": "Financial Services",
+    "subtitle": "Personalized Recommendations, Research & Back-Office Automation",
+    "description": "Generative AI applications in finance for personalized financial guidance, document search, middle/back-office automation, and regulatory compliance.",
+    "category": "Financial Services",
+    "overviewStats": [
+      { "label": "Annual Value Add", "value": "$1.2 Trillion potential annual value added to global financial services" },
+      { "label": "Executive Belief", "value": "80% of financial service executives believe AI will revolutionize the industry" },
+      { "label": "AI Strategy Adoption", "value": "75% of institutions with >$100B in assets are implementing AI strategies" },
+      { "label": "Primary Focus", "value": "Risk management, fraud detection, trading, and customer service" }
+    ],
+    "useCases": [
+      {
+        "category": "Distribution & Advice",
+        "title": "Personalized Financial Recommendations",
+        "description": "Improve cross-sell and retention strategies through hyper-personalized one-to-one conversational messaging rather than generic campaigns.",
+        "examples": ["Personalized credit card reward recommendations", "Tailored investment product suggestions", "Hyper-personalized messaging reinforcing 'you know me' experiences"]
+      },
+      {
+        "category": "Distribution & Advice",
+        "title": "Capital Markets Research",
+        "description": "Generate intelligent summaries of relevant financial research documents with sourcing provided, assisting analysts in sentiment analysis and data aggregation.",
+        "examples": ["Semiconductor industry research assessment", "Natural language topic exploration", "Summarized view of internal and external data sources"]
+      },
+      {
+        "category": "Back-Office Automation",
+        "title": "Enhanced Virtual Assistant",
+        "description": "Improve back office productivity by locating and summarizing trade information and enhancing communication between internal teams and customers.",
+        "examples": ["Repo trade settlement status inquiry and troubleshooting", "Trade ID verification & counter-party transaction confirmation", "Internal trade facilitator assistant"]
+      },
+      {
+        "category": "Back-Office Automation",
+        "title": "Document Search and Synthesis",
+        "description": "Improve understanding of large document sets (contracts, T&Cs) to identify, summarize, and explain relationships across files.",
+        "examples": ["LIBOR phase-out contract clause identification", "Automated generation of updated T&C notifications for SOFR transition", "Tailored customer communications"]
+      },
+      {
+        "category": "Risk & Data",
+        "title": "Regulatory Code Change Consultant",
+        "description": "Help developers understand underlying regulatory/business changes (e.g., Basel III) and assist in automating required code updates.",
+        "examples": ["Basel III capital requirement formula queries", "Translating regulatory changes into repository code updates", "Developer efficiency and code scalability"]
+      }
+    ],
+    "aiComponents": [
+      "Vertex AI Agent Builder for conversational experience",
+      "Integration with customer databases and Google Maps data",
+      "PaLM text generation model for form completion and paperwork processing",
+      "Email system integration for automated customer communication"
+    ],
+    "businessMetrics": [
+      "Faster Time to Insight & Analyst Productivity",
+      "Lower Operational & Serving Costs",
+      "Improved Customer & Employee Experience",
+      "Greater Developer Productivity & Code Robustness"
+    ]
+  },
+  {
+    "id": "ind-media-entertainment",
+    "slug": "media-entertainment",
+    "name": "Media & Entertainment",
+    "subtitle": "Content Creation, Media Search & Audience Personalization",
+    "description": "Empowering content creators, accelerating production workflows, enabling intelligent media search, and delivering personalized audience experiences.",
+    "category": "Media & Entertainment",
+    "overviewStats": [
+      { "label": "Search Frustration", "value": "50% of consumers frustrated with irrelevant search results" },
+      { "label": "Subscriber Churn", "value": "71% of streaming subscribers churn within 6 months" },
+      { "label": "Lack of Personalization", "value": "67% of viewers abandon content due to lack of personalization" },
+      { "label": "Premium Willingness", "value": "59% of consumers willing to pay more for personalized content" },
+      { "label": "Millennial Churn", "value": "30% of US Millennials + Gen Z canceled a streaming service in last 6 months" }
+    ],
+    "useCases": [
+      {
+        "category": "Content Creation",
+        "title": "Creative Assistance",
+        "description": "AI collaborators serving as productivity tools integrated into workflows across the content lifecycle.",
+        "examples": ["Dubbing and translation", "Script completion and drafting", "Pre-production & post-production content re-styling", "UGC publishing assistance"]
+      },
+      {
+        "category": "Content Management",
+        "title": "Internal Document & Media Search",
+        "description": "Quickly find relevant content via natural language search to eliminate hours spent navigating decades-worth of archives.",
+        "examples": ["Search across video, text, images, and audio", "Contract and licensing agreement queries", "Fast surfaced content for edit & ops teams"]
+      },
+      {
+        "category": "Content Management",
+        "title": "Content Summarization and Metadata",
+        "description": "Extract signals from content (images, audio, text) to drive insights and metadata extraction without expensive training data.",
+        "examples": ["Summarized versions and content highlights", "Scope of work & payment term extraction from contracts", "Automated metadata tagging"]
+      },
+      {
+        "category": "Audience Experience",
+        "title": "Media Content Discovery",
+        "description": "Build personalized search and contextual conversational experiences to help audiences discover content in real-time.",
+        "examples": ["Real-time personalized content recommendations", "Conversational interface for discovery across streaming platforms", "Reducing subscriber churn (e.g. STARZ case example)"]
+      },
+      {
+        "category": "Audience Experience",
+        "title": "Branded Consumer Interactions",
+        "description": "Create unique, personalized audience experiences using company IP to generate marketing buzz, viral content, and engagement.",
+        "examples": ["Virtual fantasy player agents", "Conversational journalism (e.g. TIME magazine community engagement)", "Accelerated marketing asset creation"]
+      }
+    ],
+    "aiComponents": [
+      "Vertex AI Agent Builder for mobile app conversational interfaces",
+      "Chirp for voice-to-text flexibility",
+      "Vertex AI Search for secure data discovery",
+      "AI-generated metadata catalogs & Food delivery/external API integration"
+    ],
+    "businessMetrics": [
+      "Increase Revenue & Monetization Opportunities",
+      "Reduced Subscriber Churn & Increased Audience Loyalty",
+      "Improved Production Efficiency & Reduced Costs",
+      "Decreased Time to Value"
+    ]
+  },
+  {
+    "id": "ind-healthcare-life-sciences",
+    "slug": "healthcare-life-sciences",
+    "name": "Healthcare & Life Sciences",
+    "subtitle": "Clinician Efficiency, Digital Concierge & Life Sciences R&D",
+    "description": "Reducing clinician burnout, elevating patient-centric concierge services, and advancing public/private research in drug development and clinical trials.",
+    "category": "Healthcare & Life Sciences",
+    "overviewStats": [
+      { "label": "Global Industry Size", "value": "Global healthcare industry expected to reach $21.06 Trillion by 2030" },
+      { "label": "AI Market Size", "value": "AI in healthcare market size to hit $120.2 Billion by 2028" },
+      { "label": "Telehealth Growth", "value": "Telehealth market projected to reach $185.6 Billion by 2026" },
+      { "label": "Provider Switching", "value": "32% switched providers in 2021 due to poor healthcare navigation" },
+      { "label": "Customer Service", "value": "32% said customer service was a top factor in choosing a provider" }
+    ],
+    "useCases": [
+      {
+        "category": "Clinician Efficiency",
+        "title": "Document Generation, Search & Synthesis",
+        "description": "Streamline the generation of physician letters and prior authorization draft requests to increase time with patients and speed to care.",
+        "examples": ["Automated Prior Authorization (PA) request drafting", "Cardiac diagnostic catheterization letter generation", "Reducing administrative burden and clinician burnout"]
+      },
+      {
+        "category": "Patient-Centricity",
+        "title": "Digital Member Concierge (Provider & Plan Focus)",
+        "description": "Assist patients with plan/benefit explanations, doctor connections, appointment booking, and simplified coverage answers.",
+        "examples": ["Inquiry assistance for pregnant patients finding gynecologists & parenting classes", "Chatbot answering in-network checkup and copay coverage questions", "Automated post-call wrap-up summary dispatch to patient email"]
+      },
+      {
+        "category": "Life Sciences R&D",
+        "title": "Public & Private Contextual Search",
+        "description": "Query and extract insights from public datasets (medical literature, FDA submissions) and private datasets (ELN) in plain language.",
+        "examples": ["Searching FDA website for secondary indications of pharmaceutical products", "Drug indication cross-referencing", "Extracting insights for drug research & development"]
+      },
+      {
+        "category": "Life Sciences R&D",
+        "title": "Clinical Trial Reports Generation",
+        "description": "Accelerate generation of clinical study reports, safety/efficiency claims, and tables by synthesizing disparate data sources.",
+        "examples": ["Synthesizing literature, lab notebooks, LIMS, and clinical trial management systems", "Automated Clinical Study Report Table of Contents generation", "Faster time to publication & analysis"]
+      }
+    ],
+    "aiComponents": [
+      "Vertex AI Agent Builder for conversational concierge experiences",
+      "MedPaLM: Text generation model specialized for medical domain and discharge instructions",
+      "Vertex AI Search for secure patient data and medical literature discovery",
+      "Translation capabilities & integration with email, Maps, and scheduling systems"
+    ],
+    "businessMetrics": [
+      "Reduced Clinician Burnout & Improved Patient Care Time",
+      "Lower Call Center Volume & Support Costs",
+      "Faster Time to Research Insights & Trial Publication",
+      "Improved Patient & Member Satisfaction"
+    ]
+  },
+  {
+    "id": "ind-manufacturing",
+    "slug": "manufacturing",
+    "name": "Manufacturing",
+    "subtitle": "Catalog Discovery, Troubleshooting & Supply Chain Optimization",
+    "description": "Optimizing manufacturing value chains, turning products into smart devices with conversational AI, and accelerating document search.",
+    "category": "Manufacturing",
+    "overviewStats": [
+      { "label": "GDP Share", "value": "Manufacturing accounts for 16% of global GDP" },
+      { "label": "AI Adoption", "value": "70% of COOs plan to adopt AI by 2024" },
+      { "label": "Talent Shortages", "value": "63% of manufacturers face talent shortages" },
+      { "label": "Potential AI Value", "value": "$1.3 Trillion potential value add from AI in manufacturing by 2035" },
+      { "label": "Data Silos", "value": "56% of manufacturers struggle with data silos" }
+    ],
+    "useCases": [
+      {
+        "category": "End Consumer",
+        "title": "Product / Content Catalog Discovery",
+        "description": "An efficient method to match customer requirements with precise product specifications, saving time and manual document review.",
+        "examples": ["Prototype part criteria matching (e.g. Rapidbuilder X5 carbon fiber/ABS specs)", "Automated specification comparison", "Pinpointing best-fit machinery and parts"]
+      },
+      {
+        "category": "Smart Products",
+        "title": "Customer Service Automation",
+        "description": "An easy, informative customer service experience that automates and accelerates time-to-resolution for equipment interactions.",
+        "examples": ["Equipment AI diagnostic fault code troubleshooting (e.g. fault #4250 memory backup battery)", "Replacement part ordering & service scheduling", "Product operation guidance"]
+      },
+      {
+        "category": "Supply Chain",
+        "title": "Document Search and Synthesis",
+        "description": "Retain generations of documents across design, supply chain, and service to generate new content for specific business functions.",
+        "examples": ["Weather and material requirement summaries (e.g. exterior locking door handle specs)", "Automated email drafting for locomotive fuel pump replacement notes", "Eliminating manual review of historic documentation"]
+      }
+    ],
+    "aiComponents": [
+      "Vertex AI Agent Builder for equipment status & parts conversational AI",
+      "Vertex AI Search for secure component & blueprint data discovery",
+      "PaLM text generation model for service plans and manager email notes",
+      "Integrations with Google Maps, Order Management systems, and email systems"
+    ],
+    "businessMetrics": [
+      "Reduced Manual Review of Complex Documentation",
+      "Increased After-Sales Parts & Service Revenue",
+      "Saved Time and Resources in Supply Chain & Maintenance",
+      "Prevents Recurring Operational Problems"
+    ]
+  }
+]

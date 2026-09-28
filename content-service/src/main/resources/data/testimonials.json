@@ -1,0 +1,20 @@
+[
+  {
+    "id": "tst-001",
+    "quote": "Cognitive Automation reduced our operational processing tasks by 80% while maintaining 99.9% accuracy across complex workflows.",
+    "company": "Retail Global Corp",
+    "author": "Chief Operating Officer"
+  },
+  {
+    "id": "tst-002",
+    "quote": "Defensive AI provided autonomous threat neutralization that secured our financial transaction gateways with zero downtime.",
+    "company": "Fintech Innovations",
+    "author": "Head of Cyber Security"
+  },
+  {
+    "id": "tst-003",
+    "quote": "MLOps Hub accelerated our model release velocity by 5x, enabling seamless continuous deployment for our AI algorithms.",
+    "company": "Modern SaaS Ltd",
+    "author": "VP of Engineering"
+  }
+]

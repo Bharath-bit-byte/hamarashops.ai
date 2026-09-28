@@ -1,0 +1,29 @@
+server:
+  port: ${PORT:8083}
+
+spring:
+  application:
+    name: contact-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:../.env[.properties]
+
+resend:
+  api:
+    key: ${RESEND_API_KEY:}
+  from: ${RESEND_FROM:onboarding@resend.dev}
+
+contact:
+  recipient: ${CONTACT_RECIPIENT:gorantlacjaran14@gmail.com}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always

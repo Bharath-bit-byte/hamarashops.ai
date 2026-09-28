@@ -1,0 +1,98 @@
+[
+  {
+    "id": "met-001",
+    "label": "Deployed Models",
+    "value": "200+ AI Models Deployed",
+    "description": "Production models managed across enterprise environments",
+    "category": "Global Metric",
+    "association": "General Quantitative Claim"
+  },
+  {
+    "id": "met-002",
+    "label": "Prediction Scale",
+    "value": "10K+ Predictions / Sec",
+    "description": "Real-time inference throughput capability",
+    "category": "Global Metric",
+    "association": "General Quantitative Claim"
+  },
+  {
+    "id": "met-003",
+    "label": "Data Processing",
+    "value": "1PB+ Data Points Processed",
+    "description": "Telemetry and unstructured data ingestion scale",
+    "category": "Global Metric",
+    "association": "General Quantitative Claim"
+  },
+  {
+    "id": "met-004",
+    "label": "Business Growth",
+    "value": "45% Business Growth",
+    "description": "Enterprise partner growth driven by personalization",
+    "category": "Global Metric",
+    "association": "General Quantitative Claim"
+  },
+  {
+    "id": "met-005",
+    "label": "Task Reduction",
+    "value": "80% Reduction in Manual Tasks",
+    "description": "Operational automation efficiency",
+    "category": "Product Metric",
+    "association": "Product - Cognitive Automation"
+  },
+  {
+    "id": "met-006",
+    "label": "Processing Accuracy",
+    "value": "99.9% Processing Accuracy",
+    "description": "Cognitive automation decision precision",
+    "category": "Product Metric",
+    "association": "Product - Cognitive Automation"
+  },
+  {
+    "id": "met-007",
+    "label": "Language Support",
+    "value": "100+ Languages Supported",
+    "description": "Multilingual NLP engine capabilities",
+    "category": "Product Metric",
+    "association": "Product - NLP Engines"
+  },
+  {
+    "id": "met-008",
+    "label": "Risk Exposure",
+    "value": "60% Reduced Risk Exposure",
+    "description": "Predictive failure prevention and defensive monitoring",
+    "category": "Product Metric",
+    "association": "Product - Defensive AI"
+  },
+  {
+    "id": "met-009",
+    "label": "Diagnostic Accuracy",
+    "value": "99% Anomaly Detection Accuracy across 50+ Medical Centers",
+    "description": "Healthcare Vision AI defect screening precision",
+    "category": "Domain Metric",
+    "association": "Healthcare Diagnostics Solution"
+  },
+  {
+    "id": "met-010",
+    "label": "Transit Bottlenecks",
+    "value": "42% Reduction in Transit Bottlenecks",
+    "description": "Supply chain demand forecasting impact",
+    "category": "Case Study Metric",
+    "association": "Case Study - Global Supply Chain Optimization"
+  },
+  {
+    "id": "met-011",
+    "label": "Recruitment Speed",
+    "value": "90% Faster Recruitment Turnaround",
+    "description": "Automated candidate screening efficiency",
+    "category": "Case Study Metric",
+    "association": "Case Study - Automated Candidate Screening"
+  },
+  {
+    "id": "met-012",
+    "label": "Threat Mitigation",
+    "value": "99.99% Threat Neutralization Rate",
+    "description": "Defensive AI cybersecurity incident defense",
+    "category": "Case Study Metric",
+    "association": "Case Study - Defensive AI Cyber Security Suite"
+  }
+]
