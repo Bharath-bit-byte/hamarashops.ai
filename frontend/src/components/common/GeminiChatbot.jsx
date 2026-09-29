@@ -21,14 +21,23 @@ import {
   Box,
   Layers,
   CheckCircle2,
+  Mic,
+  MicOff,
 } from 'lucide-react';
 import { streamAssistantResponse, INITIAL_SUGGESTIONS } from '../../services/aiAssistantService';
+import {
+  isSpeechRecognitionSupported,
+  isSpeechSynthesisSupported,
+  createSpeechRecognizer,
+  speakText,
+  stopSpeaking,
+} from '../../services/voiceService';
 import './GeminiChatbot.css';
 
 const welcomeMessage = {
   role: 'assistant',
   source: 'concierge',
-  text: "Hello! I'm your **HamaraShops.ai Advanced NLP Assistant**.\n\nI am synchronized with our **Spring Cloud API Gateway** and microservices. I can answer complex technical inquiries, detail our **6 enterprise AI products**, explain our **5 industry verticals**, showcase our **official videos**, share details about our **leadership & CEO Gorantla Charan Ranga**, or **schedule an engineering consultation**. Ask me anything or tap a topic below!",
+  text: "Hello! I'm your **HamaraShops.ai Advanced NLP Assistant**.\n\nI am synchronized with our **Spring Cloud API Gateway** and microservices. I can answer complex technical inquiries, detail our **6 enterprise AI products**, explain our **5 industry verticals**, showcase our **official videos**, share details about our **leadership & CEO Mr. Dheerendar**, or **schedule an engineering consultation**. Ask me anything or tap a topic below!",
   actions: [
     { label: 'Explore AI Products', path: '/use-cases' },
     { label: '5 Industry Verticals', path: '/industries' },
@@ -261,24 +270,106 @@ export default function GeminiChatbot() {
   const [streamingText, setStreamingText] = useState('');
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [speakingIndex, setSpeakingIndex] = useState(null);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceError, setVoiceError] = useState('');
+  const [isVoiceInputSupported, setIsVoiceInputSupported] = useState(true);
+  const [isSpeechSynthSupported, setIsSpeechSynthSupported] = useState(true);
 
   const messagesEndRef = useRef(null);
   const abortControllerRef = useRef(null);
   const isSendingRef = useRef(false);
+  const recognitionRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, streamingText, isStreaming, isOpen]);
 
-  // Clean up speech on unmount
+  // Check browser capabilities on mount
+  useEffect(() => {
+    setIsVoiceInputSupported(isSpeechRecognitionSupported());
+    setIsSpeechSynthSupported(isSpeechSynthesisSupported());
+  }, []);
+
+  // Clean up speech and recognition on unmount
   useEffect(() => {
     return () => {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
+      stopSpeaking();
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch (e) {
+          // ignore cleanup error
+        }
       }
     };
   }, []);
+
+  const stopListening = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.abort();
+      } catch (e) {
+        // ignore abort error
+      }
+    }
+    setIsListening(false);
+  };
+
+  const handleToggleListening = () => {
+    if (!isVoiceInputSupported) {
+      setVoiceError("Voice input isn't supported in this browser.");
+      setTimeout(() => setVoiceError(''), 4500);
+      return;
+    }
+
+    if (isListening) {
+      stopListening();
+      return;
+    }
+
+    // Stop active speech playback
+    stopSpeaking();
+    setSpeakingIndex(null);
+    setVoiceError('');
+
+    try {
+      const recognizer = createSpeechRecognizer({
+        onStart: () => {
+          setIsListening(true);
+          setVoiceError('');
+        },
+        onResult: (transcript) => {
+          if (transcript) {
+            setInput((prev) => {
+              const trimmed = (prev || '').trim();
+              return trimmed ? `${trimmed} ${transcript}` : transcript;
+            });
+          }
+        },
+        onError: (errMsg) => {
+          setIsListening(false);
+          if (errMsg) {
+            setVoiceError(errMsg);
+            setTimeout(() => setVoiceError(''), 4500);
+          }
+        },
+        onEnd: () => {
+          setIsListening(false);
+        },
+        lang: 'en-IN',
+      });
+
+      if (recognizer) {
+        recognitionRef.current = recognizer;
+        recognizer.start();
+      }
+    } catch (err) {
+      setIsListening(false);
+      setVoiceError('Could not start microphone. Please try again.');
+      setTimeout(() => setVoiceError(''), 4500);
+    }
+  };
 
   const handleActionClick = (path) => {
     if (!path) return;
@@ -310,6 +401,11 @@ export default function GeminiChatbot() {
     if (!query || isStreaming || isSendingRef.current) return;
     isSendingRef.current = true;
 
+    // Stop listening and cancel speech immediately
+    stopListening();
+    stopSpeaking();
+    setSpeakingIndex(null);
+
     // Check if the user is asking to open the appointment modal
     const lower = query.toLowerCase();
     if (
@@ -321,12 +417,6 @@ export default function GeminiChatbot() {
       lower.includes('appointment section')
     ) {
       window.dispatchEvent(new CustomEvent('open-appointment-modal'));
-    }
-
-    // Cancel any active speech
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      setSpeakingIndex(null);
     }
 
     const userMessage = { role: 'user', text: query };
@@ -388,6 +478,8 @@ export default function GeminiChatbot() {
   };
 
   const handleStop = () => {
+    stopSpeaking();
+    setSpeakingIndex(null);
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
       if (streamingText) {
@@ -424,36 +516,31 @@ export default function GeminiChatbot() {
   };
 
   const handleSpeak = (text, idx) => {
-    if (!('speechSynthesis' in window)) return;
+    if (!isSpeechSynthSupported) return;
 
     if (speakingIndex === idx) {
-      window.speechSynthesis.cancel();
+      stopSpeaking();
       setSpeakingIndex(null);
       return;
     }
 
-    window.speechSynthesis.cancel();
-    // Clean markdown asterisks and URLs for speech
-    const cleanText = sanitizeChatText(text).replace(/[*#`\-_]/g, ' ').replace(/\s+/g, ' ').trim();
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    utterance.rate = 1.0;
-    utterance.pitch = 1.0;
-
-    utterance.onend = () => setSpeakingIndex(null);
-    utterance.onerror = () => setSpeakingIndex(null);
-
+    stopSpeaking();
     setSpeakingIndex(idx);
-    window.speechSynthesis.speak(utterance);
+
+    speakText(text, {
+      onEnd: () => setSpeakingIndex(null),
+      onError: () => setSpeakingIndex(null),
+    });
   };
 
   const resetChat = () => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopListening();
+    stopSpeaking();
     setMessages([welcomeMessage]);
     setStreamingText('');
     setIsStreaming(false);
     setSpeakingIndex(null);
+    setVoiceError('');
   };
 
   const lastAssistantMessage = [...messages].reverse().find((m) => m.role === 'assistant');
@@ -511,19 +598,21 @@ export default function GeminiChatbot() {
                           )}
                         </div>
                         <div className="gemini-message-tools">
-                          <button
-                            type="button"
-                            onClick={() => handleSpeak(message.text, index)}
-                            className="gemini-tool-btn"
-                            title={speakingIndex === index ? 'Stop speaking' : 'Read aloud'}
-                            aria-label="Toggle speech"
-                          >
-                            {speakingIndex === index ? (
-                              <VolumeX size={12} className="text-[#ff6b6b] animate-pulse" />
-                            ) : (
-                              <Volume2 size={12} />
-                            )}
-                          </button>
+                          {isSpeechSynthSupported && (
+                            <button
+                              type="button"
+                              onClick={() => handleSpeak(message.text, index)}
+                              className={`gemini-tool-btn ${speakingIndex === index ? 'is-speaking' : ''}`}
+                              title={speakingIndex === index ? 'Stop speaking' : 'Read aloud'}
+                              aria-label={speakingIndex === index ? 'Stop reading' : 'Read response aloud'}
+                            >
+                              {speakingIndex === index ? (
+                                <VolumeX size={12} className="text-[#ff6b6b]" />
+                              ) : (
+                                <Volume2 size={12} />
+                              )}
+                            </button>
+                          )}
                           <button
                             type="button"
                             onClick={() => handleCopy(message.text, index)}
@@ -557,16 +646,16 @@ export default function GeminiChatbot() {
                     )}
 
                     {/* CEO Profile Card */}
-                    {message.role === 'assistant' && (message.text?.includes('Gorantla Charan Ranga') || message.text?.includes('Dheerendar Srivastav')) && (
+                    {message.role === 'assistant' && (message.text?.includes('Mr. Dheerendar') || message.text?.includes('Dheerendar')) && (
                       <div className="gemini-ceo-preview">
                         <img
                           src="/images/ceo_poster.png"
-                          alt="Gorantla Charan Ranga - Founder & CEO"
+                          alt="Mr. Dheerendar - CEO"
                           className="gemini-ceo-avatar"
                         />
                         <div className="flex-1 min-w-0">
-                          <div className="text-xs font-bold text-white truncate">Gorantla Charan Ranga</div>
-                          <div className="text-[10px] text-[#ffb3b0] font-mono">Founder & CEO | HamaraShops.ai</div>
+                          <div className="text-xs font-bold text-white truncate">Mr. Dheerendar</div>
+                          <div className="text-[10px] text-[#ffb3b0] font-mono">CEO | HamaraShops.ai</div>
                         </div>
                         <button
                           type="button"
@@ -737,6 +826,36 @@ export default function GeminiChatbot() {
               </div>
             )}
 
+            {/* Voice Listening & Error Status Bar */}
+            {isListening && (
+              <div className="gemini-voice-status-bar is-listening" role="status" aria-live="polite">
+                <div className="flex items-center gap-2">
+                  <span className="gemini-voice-indicator-dot" />
+                  <span>Listening... Speak now</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleToggleListening}
+                  className="text-xs underline hover:text-white cursor-pointer"
+                >
+                  Stop
+                </button>
+              </div>
+            )}
+            {voiceError && (
+              <div className="gemini-voice-status-bar is-error" role="alert">
+                <span>{voiceError}</span>
+                <button
+                  type="button"
+                  onClick={() => setVoiceError('')}
+                  className="text-xs hover:text-white cursor-pointer ml-2"
+                  aria-label="Dismiss error"
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            )}
+
             <form className="gemini-composer" onSubmit={handleSubmit}>
               <label className="sr-only" htmlFor="gemini-message">Message Assistant</label>
               <input
@@ -746,6 +865,19 @@ export default function GeminiChatbot() {
                 placeholder="Ask anything about our AI solutions..."
                 disabled={isStreaming}
               />
+
+              {isVoiceInputSupported && (
+                <button
+                  type="button"
+                  onClick={handleToggleListening}
+                  className={`gemini-mic-btn ${isListening ? 'is-listening' : ''}`}
+                  disabled={isStreaming}
+                  aria-label={isListening ? 'Stop voice input' : 'Start voice input'}
+                  title={isListening ? 'Listening... click to stop' : 'Voice input (Speak in English)'}
+                >
+                  {isListening ? <MicOff size={15} /> : <Mic size={15} />}
+                </button>
+              )}
 
               {isStreaming ? (
                 <button
