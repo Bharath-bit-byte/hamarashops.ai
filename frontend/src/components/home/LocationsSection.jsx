@@ -40,7 +40,7 @@ export default function LocationsSection() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#ff6b6b]/5 blur-[120px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        
+
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 35 }}
@@ -109,7 +109,7 @@ export default function LocationsSection() {
                       <Phone className="w-3.5 h-3.5 text-[#4cd6ff] group-hover:scale-110 transition-transform" />
                       <span>{loc.phone}</span>
                     </a>
-                    
+
                     <a
                       href={`mailto:${loc.email}`}
                       className="flex items-center gap-2.5 text-xs sm:text-sm text-[#ffb3b0] hover:text-[#ff6b6b] hover:underline transition-all group font-mono"
