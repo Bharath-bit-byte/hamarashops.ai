@@ -41,7 +41,7 @@ export default function AppointmentModal({ isOpen, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Client-side validation
     if (!clientName.trim() || !email.trim() || !phone.trim() || !preferredDate || !preferredTime || !purpose) {
       setError('Please fill in all required fields marked with *.');
