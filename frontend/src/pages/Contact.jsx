@@ -124,7 +124,7 @@ export default function Contact() {
         {/* Main Content Section */}
         <section id="form" className="py-20 px-6 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 max-w-6xl mx-auto">
-            
+
             {/* Left Column: Verified Metadata wrapped in Card3D */}
             <div className="lg:col-span-2 space-y-6">
               <motion.div
@@ -138,17 +138,15 @@ export default function Contact() {
                     {contactInfo?.companyName || 'HamaraShops.ai'}
                   </h3>
 
-                  {contactInfo?.contactEmail && (
-                    <div className="flex items-start gap-3">
-                      <Mail className="w-5 h-5 text-[#ff6b6b] shrink-0 mt-1" />
-                      <div>
-                        <div className="text-xs font-mono text-slate-400 uppercase">Official Email</div>
-                        <a href={`mailto:${contactInfo.contactEmail}`} className="text-sm font-mono text-[#4cd6ff] hover:underline font-bold">
-                          {contactInfo.contactEmail}
-                        </a>
-                      </div>
+                  <div className="flex items-start gap-3">
+                    <Mail className="w-5 h-5 text-[#ff6b6b] shrink-0 mt-1" />
+                    <div>
+                      <div className="text-xs font-mono text-slate-400 uppercase">Official Email</div>
+                      <p className="text-sm font-mono text-[#4cd6ff] font-bold">
+                        info@hamarashops.ai
+                      </p>
                     </div>
-                  )}
+                  </div>
 
                   <div className="flex items-start gap-3 pt-4 border-t border-[#3c475a]/40">
                     <ShieldCheck className="w-5 h-5 text-[#ff6b6b] shrink-0 mt-1" />
@@ -204,7 +202,7 @@ export default function Contact() {
                 transition={{ duration: 0.5 }}
               >
                 <Card3D glowColor="#ff6b6b" className="p-8 sm:p-10 border border-[#ff6b6b]/40 shadow-2xl bg-gradient-to-br from-[#0a1628] via-[#1a1c20] to-[#0c0e12] w-full">
-                  
+
                   {receipt ? (
                     /* Receipt Confirmation Card */
                     <div className="text-center py-8 space-y-6">
