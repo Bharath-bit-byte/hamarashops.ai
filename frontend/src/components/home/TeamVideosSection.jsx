@@ -31,7 +31,7 @@ const teamVideos = [
     role: 'Frontend Developer',
     title: 'Frontend & UI/UX Journey',
     description: 'Sharing the frontend development and UI/UX experience.',
-    videoUrl: 'https://www.youtube.com/embed/zms_htzRvOE',
+    videoUrl: 'https://www.youtube.com/embed/RjhJ58WMvHQ',
     linkedinUrl: 'https://www.linkedin.com/in/akhil-sunamudi-b417aa426/',
     glowColor: '#ff6b6b'
   },
