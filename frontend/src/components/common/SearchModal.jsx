@@ -35,7 +35,7 @@ export default function SearchModal({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/80 backdrop-blur-md animate-fadeIn">
       <div className="bg-[#1a1c20] border border-[#3c475a] rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl">
-        
+
         {/* Search Input Bar */}
         <div className="p-4 border-b border-[#3c475a] flex items-center gap-3">
           <Search className="w-5 h-5 text-[#ffb3b0]" />
