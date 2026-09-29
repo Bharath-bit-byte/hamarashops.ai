@@ -12,6 +12,15 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "cloud"
+            - name: NOTIFICATION_TO_EMAIL
+              value: "info@hamarashops.ai"
+            - name: CONTACT_FROM_EMAIL
+              value: "HamaraShops.ai <onboarding@resend.dev>"
+            - name: RESEND_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: resend-api-key
+                  key: latest
           resources:
             limits:
               memory: 512Mi
