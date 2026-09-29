@@ -27,10 +27,10 @@ public class ResendEmailServiceImpl implements ResendEmailService {
     @Value("${RESEND_API_KEY:${resend.api.key:}}")
     private String resendApiKey;
 
-    @Value("${CONTACT_RECIPIENT:${contact.recipient:gorantlacjaran14@gmail.com}}")
+    @Value("${NOTIFICATION_TO_EMAIL:${CONTACT_RECIPIENT:${contact.recipient:info@hamarashops.ai}}}")
     private String contactRecipient;
 
-    @Value("${RESEND_FROM:${resend.from:onboarding@resend.dev}}")
+    @Value("${CONTACT_FROM_EMAIL:${RESEND_FROM:${resend.from:onboarding@resend.dev}}}")
     private String resendFrom;
 
     private final ObjectMapper objectMapper;
@@ -41,6 +41,76 @@ public class ResendEmailServiceImpl implements ResendEmailService {
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
+    }
+
+    public String resolveSenderAddress() {
+        String from = (resendFrom != null && !resendFrom.trim().isEmpty())
+                ? resendFrom.trim()
+                : (System.getenv("CONTACT_FROM_EMAIL") != null
+                    ? System.getenv("CONTACT_FROM_EMAIL").trim()
+                    : (System.getenv("RESEND_FROM") != null ? System.getenv("RESEND_FROM").trim() : "onboarding@resend.dev"));
+
+        if (from == null || from.trim().isEmpty()) {
+            return "onboarding@resend.dev";
+        }
+
+        // If from contains display name e.g. "HamaraShops.ai <onboarding@resend.dev>", extract pure email inside brackets
+        if (from.contains("<") && from.contains(">")) {
+            int start = from.lastIndexOf("<");
+            int end = from.indexOf(">", start);
+            if (end > start) {
+                String extracted = from.substring(start + 1, end).trim();
+                if (!extracted.isEmpty()) {
+                    return extracted;
+                }
+            }
+        }
+
+        String cleaned = from.replaceAll("[<>]", "").trim();
+        return cleaned.isEmpty() ? "onboarding@resend.dev" : cleaned;
+    }
+
+    public String buildDynamicFrom(String customerName) {
+        String senderEmail = resolveSenderAddress();
+
+        if (customerName == null || customerName.trim().isEmpty() || "N/A".equalsIgnoreCase(customerName.trim())) {
+            return "HamaraShops.ai <" + senderEmail + ">";
+        }
+
+        // Sanitize customer name: remove angle brackets, quotes, newlines, carriage returns
+        String cleanName = customerName.replaceAll("[\\r\\n<>\"]", "").trim();
+        if (cleanName.isEmpty()) {
+            return "HamaraShops.ai <" + senderEmail + ">";
+        }
+
+        return cleanName + " <" + senderEmail + ">";
+    }
+
+    public String resolveRecipient() {
+        if (contactRecipient != null && !contactRecipient.trim().isEmpty()) {
+            return contactRecipient.trim();
+        }
+        String envNotif = System.getenv("NOTIFICATION_TO_EMAIL");
+        if (envNotif != null && !envNotif.trim().isEmpty()) {
+            return envNotif.trim();
+        }
+        String envContact = System.getenv("CONTACT_RECIPIENT");
+        if (envContact != null && !envContact.trim().isEmpty()) {
+            return envContact.trim();
+        }
+        return "info@hamarashops.ai";
+    }
+
+    public void setResendApiKey(String resendApiKey) {
+        this.resendApiKey = resendApiKey;
+    }
+
+    public void setContactRecipient(String contactRecipient) {
+        this.contactRecipient = contactRecipient;
+    }
+
+    public void setResendFrom(String resendFrom) {
+        this.resendFrom = resendFrom;
     }
 
     @Override
@@ -55,20 +125,15 @@ public class ResendEmailServiceImpl implements ResendEmailService {
                 ? resendApiKey.trim()
                 : System.getenv("RESEND_API_KEY");
 
-        String recipient = (contactRecipient != null && !contactRecipient.trim().isEmpty())
-                ? contactRecipient.trim()
-                : (System.getenv("CONTACT_RECIPIENT") != null ? System.getenv("CONTACT_RECIPIENT").trim() : "gorantlacjaran14@gmail.com");
-
-        String from = (resendFrom != null && !resendFrom.trim().isEmpty())
-                ? resendFrom.trim()
-                : (System.getenv("RESEND_FROM") != null ? System.getenv("RESEND_FROM").trim() : "onboarding@resend.dev");
+        String recipient = resolveRecipient();
+        String from = buildDynamicFrom(fullName);
 
         boolean apiKeyPresent = (apiKey != null && !apiKey.trim().isEmpty());
         boolean fromPresent = (from != null && !from.trim().isEmpty());
         boolean recipientPresent = (recipient != null && !recipient.trim().isEmpty());
 
-        log.info("Environment Diagnostic Check -> RESEND_API_KEY present: {}, RESEND_FROM present: {}, CONTACT_RECIPIENT present: {}",
-                apiKeyPresent, fromPresent, recipientPresent);
+        log.info("Environment Diagnostic Check -> RESEND_API_KEY present: {}, FROM: '{}', TO: '{}', REPLY_TO: '{}'",
+                apiKeyPresent, from, recipient, senderEmail);
 
         if (!apiKeyPresent) {
             log.error("RESEND_API_KEY environment variable is not configured. Cannot dispatch Resend email for inquiry.");
@@ -87,6 +152,9 @@ public class ResendEmailServiceImpl implements ResendEmailService {
             Map<String, Object> payload = new HashMap<>();
             payload.put("from", from);
             payload.put("to", Collections.singletonList(recipient));
+            if (senderEmail != null && !senderEmail.trim().isEmpty() && !"N/A".equalsIgnoreCase(senderEmail)) {
+                payload.put("reply_to", senderEmail.trim());
+            }
             payload.put("subject", subject);
             payload.put("text", messageText);
             
@@ -157,20 +225,15 @@ public class ResendEmailServiceImpl implements ResendEmailService {
                 ? resendApiKey.trim()
                 : System.getenv("RESEND_API_KEY");
 
-        String recipient = (contactRecipient != null && !contactRecipient.trim().isEmpty())
-                ? contactRecipient.trim()
-                : (System.getenv("CONTACT_RECIPIENT") != null ? System.getenv("CONTACT_RECIPIENT").trim() : "gorantlacjaran14@gmail.com");
-
-        String from = (resendFrom != null && !resendFrom.trim().isEmpty())
-                ? resendFrom.trim()
-                : (System.getenv("RESEND_FROM") != null ? System.getenv("RESEND_FROM").trim() : "onboarding@resend.dev");
+        String recipient = resolveRecipient();
+        String from = buildDynamicFrom(clientName);
 
         boolean apiKeyPresent = (apiKey != null && !apiKey.trim().isEmpty());
         boolean fromPresent = (from != null && !from.trim().isEmpty());
         boolean recipientPresent = (recipient != null && !recipient.trim().isEmpty());
 
-        log.info("Environment Diagnostic Check -> RESEND_API_KEY present: {}, RESEND_FROM present: {}, CONTACT_RECIPIENT present: {}",
-                apiKeyPresent, fromPresent, recipientPresent);
+        log.info("Environment Diagnostic Check -> RESEND_API_KEY present: {}, FROM: '{}', TO: '{}', REPLY_TO: '{}'",
+                apiKeyPresent, from, recipient, email);
 
         if (!apiKeyPresent) {
             log.error("RESEND_API_KEY environment variable is not configured. Cannot dispatch Resend email for appointment.");
@@ -207,6 +270,9 @@ public class ResendEmailServiceImpl implements ResendEmailService {
             Map<String, Object> payload = new HashMap<>();
             payload.put("from", from);
             payload.put("to", Collections.singletonList(recipient));
+            if (email != null && !email.trim().isEmpty() && !"N/A".equalsIgnoreCase(email)) {
+                payload.put("reply_to", email.trim());
+            }
             payload.put("subject", subject);
             payload.put("text", plainText);
             payload.put("html", htmlContent);
