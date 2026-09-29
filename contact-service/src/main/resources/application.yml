@@ -14,10 +14,10 @@ spring:
 resend:
   api:
     key: ${RESEND_API_KEY:}
-  from: ${RESEND_FROM:onboarding@resend.dev}
+  from: ${CONTACT_FROM_EMAIL:${RESEND_FROM:onboarding@resend.dev}}
 
 contact:
-  recipient: ${CONTACT_RECIPIENT:gorantlacjaran14@gmail.com}
+  recipient: ${NOTIFICATION_TO_EMAIL:${CONTACT_RECIPIENT:info@hamarashops.ai}}
 
 management:
   endpoints:
