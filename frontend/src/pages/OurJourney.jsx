@@ -16,7 +16,7 @@ export default function OurJourney() {
       </Suspense>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
+
         {/* Header split-grid container */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-16">
           <motion.div
