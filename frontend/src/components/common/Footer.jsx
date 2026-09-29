@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="bg-[#08090c] border-t border-[#3c475a]/50 text-slate-300 pt-16 pb-12 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-16 border-b border-[#3c475a]/40">
-          
+
           {/* Brand Summary */}
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="flex items-center gap-3 group">
@@ -22,7 +22,7 @@ export default function Footer() {
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
               Destination Digital — Empowering modern enterprises with sophisticated, high-performance artificial intelligence solutions designed for scale.
             </p>
-            
+
             <div className="flex items-center gap-2 text-xs font-mono text-[#4cd6ff] bg-[#1a1c20] px-3 py-1.5 rounded-full border border-[#3c475a] w-fit">
               <ShieldCheck className="w-4 h-4 text-[#ff6b6b]" />
               <span>Generative AI Industry Use Cases • PDF Source of Truth</span>
