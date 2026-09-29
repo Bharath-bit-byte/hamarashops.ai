@@ -552,7 +552,7 @@ export async function streamAssistantResponse({
     query.includes('hyderabad') ||
     query.includes('london')
   ) {
-    const text = '**Connect with HamaraShops.ai Engineering & Sales** (via Contact Service /api/v1/contact):\n\n- **Instant Online Booking**: Click **"Open Appointment Form"** below to pick your preferred date, time slot, and meeting purpose directly in the interactive scheduling modal.\n- **Automated Dispatch**: Submissions are routed to our Contact Service (/api/v1/contact/appointment) and generate an automated tracking receipt powered by the **Resend Email API**.\n\n**Global Headquarters & Regional Hubs**:\n- **United States (HQ)**: 2611 Ross Ave, Dallas, TX 75201 | +1 (626) 924-456\n- **India Hub**: Hyderabad, Telangana 500091 | +91 8639551911\n- **UK Office**: 85 Harberton Road, London N19 3JT\n- **Direct Email**: contact@hamarashops.com | info@hamarashops.ai';
+    const text = '**Connect with HamaraShops.ai Engineering & Sales** (via Contact Service /api/v1/contact):\n\n- **Instant Online Booking**: Click **"Open Appointment Form"** below to pick your preferred date, time slot, and meeting purpose directly in the interactive scheduling modal.\n- **Automated Dispatch**: Submissions are routed to our Contact Service (/api/v1/contact/appointment) and generate an automated tracking receipt powered by the **Resend Email API**.\n\n**Global Headquarters & Regional Hubs**:\n- **United States (HQ)**: 2611 Ross Ave, Dallas, TX 75201 | +1 (626) 924-456\n- **India Hub**: Hyderabad, Telangana 500091 | +91 8639551911\n- **UK Office**: 85 Harberton Road, London N19 3JT\n- **Direct Email**: info@hamarashops.ai';
 
     const streamed = await streamTextGradually(text, onToken, signal, 10);
     onComplete({
@@ -569,19 +569,17 @@ export async function streamAssistantResponse({
   }
 
   // -------------------------------------------------------------
-  // 8. LEADERSHIP & CEO (GORANTLA CHARAN RANGA)
+  // 8. LEADERSHIP & CEO (MR. DHEERENDAR)
   // -------------------------------------------------------------
   if (
     query.includes('ceo') ||
-    query.includes('charan') ||
-    query.includes('gorantla') ||
     query.includes('dheerendar') ||
     query.includes('founder') ||
     query.includes('leadership') ||
     query.includes('who runs') ||
     query.includes('executive')
   ) {
-    const text = '**Meet Our Founder & CEO - Gorantla Charan Ranga**:\n\n- **Executive Role**: Founder & Chief Executive Officer of HamaraShops.ai.\n- **Core Vision**: *"HamaraShops.ai is an application player in the AI race."*\n- **Strategic Leadership**: Leading HamaraShops.ai to bridge raw foundational AI models (PaLM, Gemini, Imagen, MedPaLM) into high-impact, enterprise-grade business applications across Insurance, Financial Services, Retail, Healthcare, and Manufacturing.\n- **Executive Inquiries**: `gorantlacjaran14@gmail.com` | `dheerendar@hamarashops.ai`\n\nYou can view the full executive leadership feature and official CEO poster at **/about#ceo-section**!';
+    const text = '**Meet Our CEO - Mr. Dheerendar**:\n\n- **Executive Role**: Chief Executive Officer of HamaraShops.ai.\n- **Core Vision**: *"HamaraShops.ai is an application player in AI race."*\n- **Strategic Leadership**: Leading HamaraShops.ai to bridge raw foundational AI models (PaLM, Gemini, Imagen, MedPaLM) into high-impact, enterprise-grade business applications across Insurance, Financial Services, Retail, Healthcare, and Manufacturing.\n- **Contact No. / WhatsApp**: `+91 86395 51911`\n- **Email ID**: `dheerendar@hamarashops.ai`\n- **Website**: `https://www.hamarashops.ai`\n\nYou can view the full executive leadership feature and official CEO poster at **/about#ceo-section**!';
 
     const streamed = await streamTextGradually(text, onToken, signal, 10);
     onComplete({
@@ -693,7 +691,7 @@ Verified Live Backend Knowledge:
 - Products: Cognitive Automation Engine (80% task reduction, 99.9% precision), Conversational Commerce Concierge (32% conversion uplift), Defensive AI Cybersecurity Suite (99.99% threat neutralization), MLOps Enterprise Hub (200+ models), Multilingual NLP (100+ languages), Vertex AI Semantic Search (1PB+ data).
 - Solutions: Wendy's FreshAI Drive-Thru, LIBOR Contract Intelligence, MedPaLM Clinical Discharge Concierge, Media Archive Deep Vector Discovery, Industrial Predictive Maintenance.
 - 5 Industries: Retail, Financial Services, Healthcare & Life Sciences, Media & Entertainment, Manufacturing.
-- Leadership: Founder & CEO Gorantla Charan Ranga ("HamaraShops.ai is an application player in the AI race"). Executive Inquiries: gorantlacjaran14@gmail.com | dheerendar@hamarashops.ai.
+- Leadership: CEO Mr. Dheerendar ("HamaraShops.ai is an application player in AI race"). Contact/WhatsApp: +91 86395 51911 | Email: dheerendar@hamarashops.ai.
 - Videos: Company Profile Video (pxaMqyFmHO0), Team Journey Series (Charan, Bharath, Akhil, Bhavani).
 - Verified Metrics: 200+ models, 10K+ predictions/sec, 80% task reduction, 99.9% precision, 100+ languages.
 - Headquarters: Dallas, TX. Hubs: Hyderabad, India & London, UK.
@@ -746,7 +744,7 @@ Answer concisely, factually, and professionally based on this enterprise knowled
   }
 
   // 13. Deterministic Welcome / Default Response
-  const defaultText = 'Hello! I am your **HamaraShops.ai Advanced NLP Assistant**.\n\nOur enterprise platform delivers **6 core Generative AI capabilities** across **5 key industries**:\n\n- **AI Products Suite**: Cognitive Automation, Conversational Commerce, Defensive AI, MLOps Hub, Multilingual NLP, Vertex AI Semantic Search.\n- **5 Industry Verticals**: Retail, Financial Services, Healthcare & Life Sciences, Media & Entertainment, Manufacturing.\n- **Leadership**: Founder & CEO **Gorantla Charan Ranga** (/about#ceo-section).\n- **Official Videos**: Company Profile Video & Team Journey series (/our-journey).\n- **Verified Scale**: 200+ production models, 10K+ predictions/sec, 99.9% decision precision.\n\nWhat would you like to explore?';
+  const defaultText = 'Hello! I am your **HamaraShops.ai Advanced NLP Assistant**.\n\nOur enterprise platform delivers **6 core Generative AI capabilities** across **5 key industries**:\n\n- **AI Products Suite**: Cognitive Automation, Conversational Commerce, Defensive AI, MLOps Hub, Multilingual NLP, Vertex AI Semantic Search.\n- **5 Industry Verticals**: Retail, Financial Services, Healthcare & Life Sciences, Media & Entertainment, Manufacturing.\n- **Leadership**: CEO **Mr. Dheerendar** (/about#ceo-section).\n- **Official Videos**: Company Profile Video & Team Journey series (/our-journey).\n- **Verified Scale**: 200+ production models, 10K+ predictions/sec, 99.9% decision precision.\n\nWhat would you like to explore?';
 
   const streamed = await streamTextGradually(defaultText, onToken, signal, 10);
   onComplete({
