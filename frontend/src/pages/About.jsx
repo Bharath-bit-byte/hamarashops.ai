@@ -164,7 +164,7 @@ export default function About() {
             <div className="relative w-full overflow-hidden rounded-2xl">
               <img
                 src="/images/ceo_poster.png"
-                alt="Meet Our CEO - Dheerendar Srivastav, Founder & Chief Executive Officer of HamaraShops.ai"
+                alt="Meet Our CEO - Mr. Dheerendar, Chief Executive Officer of HamaraShops.ai"
                 className="w-full h-auto object-contain rounded-xl max-h-[850px] mx-auto shadow-2xl transition-transform duration-500 hover:scale-[1.01]"
                 loading="lazy"
               />
