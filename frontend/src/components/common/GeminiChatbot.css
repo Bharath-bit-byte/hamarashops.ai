@@ -468,6 +468,72 @@
   50% { opacity: 0.8; }
 }
 
+/* Voice Assistance (STT & TTS) */
+.gemini-mic-btn {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #94a3b8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  transition: all 160ms ease;
+}
+
+.gemini-mic-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+.gemini-mic-btn.is-listening {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #ff6b6b !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  animation: pulse-mic 1.4s infinite ease-in-out;
+}
+
+@keyframes pulse-mic {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+  }
+}
+
+.gemini-voice-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 14px 6px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  animation: gemini-panel-in 180ms ease;
+}
+
+.gemini-voice-status-bar.is-listening {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.gemini-voice-status-bar.is-error {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fcd34d;
+}
+
+.gemini-voice-indicator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 5px;
+  background: #ef4444;
+  animation: pulse-stop 0.8s infinite;
+}
+
 .gemini-disclaimer {
   margin: 6px 15px 10px;
   color: #556275;
