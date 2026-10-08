@@ -1,0 +1,23 @@
+# Google Cloud Run production configuration
+server:
+  port: ${PORT:8084}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+linkedin:
+  redirect-uri: ${LINKEDIN_REDIRECT_URI:https://www.hamarashops.ai/api/v1/auth/linkedin/callback}
+
+app:
+  frontend-url: ${FRONTEND_URL:https://hamarashops.com}
+  cookie-secure: true

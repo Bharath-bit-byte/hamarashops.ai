@@ -33,3 +33,5 @@ spec:
               value: "<DEPLOYED_BUSINESS_SERVICE_URL>"
             - name: CONTACT_SERVICE_URL
               value: "<DEPLOYED_CONTACT_SERVICE_URL>"
+            - name: AUTH_SERVICE_URL
+              value: "<DEPLOYED_AUTH_SERVICE_URL>"

@@ -193,4 +193,4 @@ gcloud run deploy api-gateway \
 
 Distributed under the **MIT License**. See `LICENSE` for details.
 
-Developed with ❤️ by **Sadam Bharath (Full Stack Java Developer)**.
+Developed with ❤️ by **Gorantla Charan Ranga (Full Stack Java Developer)**.

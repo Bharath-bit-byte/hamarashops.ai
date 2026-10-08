@@ -45,6 +45,7 @@ import EthicsPolicy from './pages/EthicsPolicy';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import SalesTerms from './pages/SalesTerms';
 import NotFound from './pages/NotFound';
+import Login from './pages/Login';
 
 import ScrollToTopButton from './components/common/ScrollToTopButton';
 import GeminiChatbot from './components/common/GeminiChatbot';
@@ -68,6 +69,9 @@ export default function App() {
           
           <Route path="/contact" element={<Contact />} />
           <Route path="/our-journey" element={<OurJourney />} />
+
+          {/* Authentication */}
+          <Route path="/login" element={<Login />} />
 
           {/* Reference Policy / Integration Pages */}
           <Route path="/api-docs" element={<ApiDocs />} />

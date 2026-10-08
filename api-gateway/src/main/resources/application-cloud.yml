@@ -19,3 +19,9 @@ spring:
           uri: ${CONTACT_SERVICE_URL}
           predicates:
             - Path=/api/v1/contact,/api/v1/contact/**
+
+        # Route 4: Auth Service
+        - id: auth-service-routes
+          uri: ${AUTH_SERVICE_URL}
+          predicates:
+            - Path=/api/v1/auth,/api/v1/auth/**

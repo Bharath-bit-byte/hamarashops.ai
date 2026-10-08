@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { Search, Menu, X, ArrowUpRight, ChevronDown } from 'lucide-react';
+import { Search, Menu, X, ArrowUpRight, ChevronDown, LogOut, User as UserIcon } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import SearchModal from './SearchModal';
 import AppointmentModal from './AppointmentModal';
+import { useAuth } from '../../context/AuthContext';
 
 const navLinks = [
   { name: 'About', path: '/about' },
@@ -26,10 +27,12 @@ const megaMenuData = {
 };
 
 export default function Header() {
+  const { user, isAuthenticated, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [appointmentModalOpen, setAppointmentModalOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const location = useLocation();
 
@@ -45,6 +48,7 @@ export default function Header() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setUserMenuOpen(false);
     setActiveDropdown(null);
   }, [location]);
 
@@ -215,6 +219,70 @@ export default function Header() {
               <span>Schedule Appointment</span>
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
+
+            {/* User Profile or Sign In */}
+            {isAuthenticated && user ? (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full bg-[#1a1c20] border border-[#3c475a] hover:border-[#ff6b6b]/60 transition-all cursor-pointer"
+                  title="Account"
+                >
+                  {user.pictureUrl ? (
+                    <img
+                      src={user.pictureUrl}
+                      alt={user.name || 'User'}
+                      className="w-6 h-6 rounded-full object-cover border border-[#ff6b6b]/40"
+                    />
+                  ) : (
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#ff6b6b] to-[#ff8533] text-white text-[11px] font-bold flex items-center justify-center">
+                      {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                  )}
+                  <span className="text-xs font-semibold text-white max-w-[100px] truncate">
+                    {user.firstName || user.name?.split(' ')[0] || 'Account'}
+                  </span>
+                  <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                <AnimatePresence>
+                  {userMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 mt-2 w-56 bg-[#121620]/95 backdrop-blur-2xl border border-[#3c475a]/70 rounded-2xl p-3 shadow-2xl z-50 pointer-events-auto"
+                    >
+                      <div className="px-2 py-1.5 border-b border-[#262c38] mb-2">
+                        <p className="text-xs font-semibold text-white truncate">{user.name}</p>
+                        <p className="text-[11px] text-slate-400 truncate">{user.email}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          logout();
+                        }}
+                        className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs font-medium text-red-400 hover:bg-red-950/40 hover:text-red-300 transition-colors cursor-pointer"
+                      >
+                        <LogOut className="w-3.5 h-3.5" />
+                        <span>Sign Out</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="px-3.5 py-2 rounded-full border border-[#3c475a] hover:border-[#ff6b6b]/60 bg-[#1a1c20]/80 text-slate-200 hover:text-white text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
+              >
+                <UserIcon className="w-3.5 h-3.5 text-[#ff6b6b]" />
+                <span>Sign In</span>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu & Search Controls */}
@@ -340,6 +408,45 @@ export default function Header() {
                       }}
                       className="pt-4 border-t border-[#3c475a]/60 mt-2 flex flex-col gap-3"
                     >
+                      {/* Mobile Auth Control */}
+                      {isAuthenticated && user ? (
+                        <div className="p-3 rounded-xl bg-[#1a2233]/80 border border-[#3c475a]/60 flex items-center justify-between">
+                          <div className="flex items-center gap-2.5 overflow-hidden">
+                            {user.pictureUrl ? (
+                              <img src={user.pictureUrl} alt={user.name} className="w-8 h-8 rounded-full object-cover shrink-0" />
+                            ) : (
+                              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#ff6b6b] to-[#ff8533] text-white text-xs font-bold flex items-center justify-center shrink-0">
+                                {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                              </div>
+                            )}
+                            <div className="overflow-hidden">
+                              <p className="text-xs font-semibold text-white truncate">{user.name}</p>
+                              <p className="text-[10px] text-slate-400 truncate">{user.email}</p>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setMobileMenuOpen(false);
+                              logout();
+                            }}
+                            className="p-2 rounded-lg text-red-400 hover:bg-red-950/40"
+                            title="Sign Out"
+                          >
+                            <LogOut className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ) : (
+                        <Link
+                          to="/login"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="w-full py-3 rounded-xl bg-[#0A66C2] text-white text-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-[#0A66C2]/20"
+                        >
+                          <UserIcon className="w-4 h-4" />
+                          <span>Sign In with LinkedIn</span>
+                        </Link>
+                      )}
+
                       <button
                         onClick={() => {
                           setMobileMenuOpen(false);

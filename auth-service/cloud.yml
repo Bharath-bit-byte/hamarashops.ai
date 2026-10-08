@@ -1,0 +1,56 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: auth-service
+  labels:
+    cloud.googleapis.com/location: <REGION>
+    app.kubernetes.io/name: auth-service
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/maxScale: "10"
+        run.googleapis.com/cpu-throttling: "false"
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      containers:
+        - image: <REGION>-docker.pkg.dev/<PROJECT_ID>/<IMAGE_REPOSITORY>/auth-service:<IMAGE_TAG>
+          ports:
+            - name: http1
+              containerPort: 8084
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "cloud"
+            - name: LINKEDIN_CLIENT_ID
+              value: "<LINKEDIN_CLIENT_ID>"
+            - name: LINKEDIN_REDIRECT_URI
+              value: "https://hamarashops.com/api/v1/auth/linkedin/callback"
+            - name: FRONTEND_URL
+              value: "https://hamarashops.com"
+            - name: COOKIE_SECURE
+              value: "true"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql:///<DB_NAME>?cloudSqlInstance=<PROJECT_ID>:<REGION>:<INSTANCE_NAME>&socketFactory=com.google.cloud.sql.mysql.SocketFactory"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "<DB_USER>"
+            - name: LINKEDIN_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-client-secret
+                  key: latest
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: latest
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-password
+                  key: latest

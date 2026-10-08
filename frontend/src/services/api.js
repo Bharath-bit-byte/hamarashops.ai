@@ -34,3 +34,10 @@ export const AssistantApi = {
   getSuggestions: () => apiClient.get('/assistant/suggestions'),
 };
 
+export const AuthApi = {
+  getMe: () => apiClient.get('/auth/me'),
+  logout: () => apiClient.post('/auth/logout'),
+  getAuthUrl: (redirect = '/') => apiClient.get(`/auth/linkedin/url?redirect=${encodeURIComponent(redirect)}`),
+};
+
+

@@ -10,7 +10,7 @@ const locations = [
     address: 'Hamarashops.ai, 2611, Ross Ave, Dallas, Tx, 75201, Dallas, TX, 75201, United States',
     phone: '+1626924456',
     email: 'info@hamarashops.ai',
-    web: 'https://hamarashops.ai',
+    web: 'https://hamarashops.com',
     glowColor: '#ff6b6b',
   },
   {
@@ -19,7 +19,7 @@ const locations = [
     address: 'Hyderabad, hyderabad, Telangana, 500091, India',
     phone: '+918639551911',
     email: 'info@hamarashops.ai',
-    web: 'https://hamarashops.ai',
+    web: 'https://hamarashops.com',
     glowColor: '#4cd6ff',
   },
   {
@@ -28,7 +28,7 @@ const locations = [
     address: '85 HARBERTON ROAD, LONDON, N193JT, United Kingdom',
     phone: '+918639551911',
     email: 'info@hamarashops.ai',
-    web: 'https://hamarashops.ai',
+    web: 'https://hamarashops.com',
     glowColor: '#ff6b6b',
   },
 ];

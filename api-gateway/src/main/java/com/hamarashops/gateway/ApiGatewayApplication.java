@@ -19,6 +19,9 @@ public class ApiGatewayApplication {
     @Value("${CONTACT_SERVICE_URL:http://localhost:8083}")
     private String contactServiceUrl;
 
+    @Value("${AUTH_SERVICE_URL:http://localhost:8084}")
+    private String authServiceUrl;
+
     public static void main(String[] args) {
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
@@ -47,6 +50,9 @@ public class ApiGatewayApplication {
                 .route("contact-service-routes", r -> r.path(
                         "/api/v1/contact", "/api/v1/contact/**"
                 ).uri(contactServiceUrl))
+                .route("auth-service-routes", r -> r.path(
+                        "/api/v1/auth", "/api/v1/auth/**"
+                ).uri(authServiceUrl))
                 .build();
     }
 }

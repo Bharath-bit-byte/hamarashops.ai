@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    linkedin_id VARCHAR(128) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    name VARCHAR(200),
+    picture_url VARCHAR(1024),
+    email_verified BOOLEAN NOT NULL DEFAULT FALSE,
+    provider VARCHAR(50) NOT NULL DEFAULT 'LINKEDIN',
+    role VARCHAR(50) NOT NULL DEFAULT 'ROLE_USER',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_users_linkedin_id UNIQUE (linkedin_id),
+    CONSTRAINT uq_users_email UNIQUE (email)
+);

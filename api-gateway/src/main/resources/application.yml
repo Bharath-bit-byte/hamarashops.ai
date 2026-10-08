@@ -36,7 +36,7 @@ spring:
                   - "Authorization"
                   - "Origin"
                   - "X-Requested-With"
-                allowCredentials: false
+                allowCredentials: true
                 maxAge: 3600
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
@@ -66,7 +66,7 @@ spring:
               - "Authorization"
               - "Origin"
               - "X-Requested-With"
-            allowCredentials: false
+            allowCredentials: true
             maxAge: 3600
 
 management:

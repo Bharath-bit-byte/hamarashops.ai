@@ -1,0 +1,55 @@
+server:
+  port: ${PORT:8084}
+
+spring:
+  application:
+    name: auth-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:../.env[.properties]
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:file:./data/authdb;MODE=MySQL;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER:}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+linkedin:
+  client-id: ${LINKEDIN_CLIENT_ID:}
+  client-secret: ${LINKEDIN_CLIENT_SECRET:}
+  redirect-uri: ${LINKEDIN_REDIRECT_URI:http://localhost:8080/api/v1/auth/linkedin/callback}
+  authorization-url: https://www.linkedin.com/oauth/v2/authorization
+  token-url: https://www.linkedin.com/oauth/v2/accessToken
+  userinfo-url: https://api.linkedin.com/v2/userinfo
+  jwks-url: https://www.linkedin.com/oauth/openid/jwks
+  issuer: ${LINKEDIN_ISSUER:https://www.linkedin.com/oauth}
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000} # 24 hours
+
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
+  cookie-secure: ${COOKIE_SECURE:false}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
