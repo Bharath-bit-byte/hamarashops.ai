@@ -29,17 +29,20 @@ public class AuthControllerTest {
     private LinkedInOidcService linkedInOidcService;
     private UserService userService;
     private JwtTokenService jwtTokenService;
+    private com.hamarashops.auth.storage.ExcelUserStorageService excelUserStorageService;
 
     @BeforeEach
     public void setUp() {
         linkedInOidcService = mock(LinkedInOidcService.class);
         userService = mock(UserService.class);
         jwtTokenService = mock(JwtTokenService.class);
+        excelUserStorageService = mock(com.hamarashops.auth.storage.ExcelUserStorageService.class);
 
         AuthController controller = new AuthController(
                 linkedInOidcService,
                 userService,
                 jwtTokenService,
+                excelUserStorageService,
                 "http://localhost:5173",
                 false
         );
@@ -106,5 +109,30 @@ public class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(cookie().maxAge("hs_auth_token", 0))
                 .andExpect(jsonPath("$.message").value("Logged out successfully"));
+    }
+
+    @Test
+    @DisplayName("GET /api/v1/auth/download/excel without authentication returns 401 Unauthorized")
+    public void testDownloadExcelUnauthenticated() throws Exception {
+        mockMvc.perform(get("/api/v1/auth/download/excel"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("GET /api/v1/auth/download/excel with authentication returns Excel file bytes")
+    public void testDownloadExcelAuthenticated() throws Exception {
+        User user = new User("sub_123", "test@hamarashops.ai", "First", "Last", "First Last", null, true);
+        user.setId(1L);
+        org.springframework.security.authentication.UsernamePasswordAuthenticationToken auth =
+                new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(user, null, java.util.Collections.emptyList());
+
+        byte[] dummyExcelBytes = new byte[] { 'P', 'K', 3, 4, 10, 20 };
+        when(excelUserStorageService.getLatestWorkbookBytes()).thenReturn(dummyExcelBytes);
+
+        mockMvc.perform(get("/api/v1/auth/download/excel").principal(auth))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .andExpect(header().string("Content-Disposition", "attachment; filename=\"Companies_Details.xlsx\""))
+                .andExpect(content().bytes(dummyExcelBytes));
     }
 }

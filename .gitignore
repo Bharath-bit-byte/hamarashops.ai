@@ -33,6 +33,12 @@ application-local.properties
 # Keep example environment files
 !.env.example
 
+# Local Data, User Storage & Spreadsheets
+data/
+**/data/
+*.xlsx
+*.xls
+
 # =========================================================
 # Logs
 # =========================================================

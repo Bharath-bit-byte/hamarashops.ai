@@ -10,21 +10,17 @@ spring:
     import:
       - optional:file:.env[.properties]
       - optional:file:../.env[.properties]
-  datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:h2:file:./data/authdb;MODE=MySQL;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE}
-    username: ${SPRING_DATASOURCE_USERNAME:sa}
-    password: ${SPRING_DATASOURCE_PASSWORD:}
-    driver-class-name: ${SPRING_DATASOURCE_DRIVER:}
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: false
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
+      - optional:file:auth-service/.env[.properties]
+
+storage:
+  type: ${STORAGE_TYPE:LOCAL} # LOCAL or GCS
+  local:
+    json-path: ${STORAGE_LOCAL_JSON_PATH:data/linkedin-users.json}
+    excel-path: ${STORAGE_LOCAL_EXCEL_PATH:Companies_Details.xlsx}
+  gcs:
+    bucket-name: ${GCS_BUCKET_NAME:}
+    json-path: ${GCS_JSON_PATH:auth/linkedin-users.json}
+    excel-path: ${GCS_EXCEL_PATH:auth/Companies_Details.xlsx}
 
 linkedin:
   client-id: ${LINKEDIN_CLIENT_ID:}

@@ -1,25 +1,31 @@
 package com.hamarashops.auth.serviceimpl;
 
-import com.hamarashops.auth.exception.OAuthAuthenticationException;
 import com.hamarashops.auth.model.entity.User;
-import com.hamarashops.auth.repository.UserRepository;
 import com.hamarashops.auth.service.UserService;
+import com.hamarashops.auth.storage.ExcelUserStorageService;
+import com.hamarashops.auth.storage.JsonUserStorageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private final JsonUserStorageService jsonUserStorageService;
+    private final ExcelUserStorageService excelUserStorageService;
+
+    public UserServiceImpl(
+            JsonUserStorageService jsonUserStorageService,
+            ExcelUserStorageService excelUserStorageService) {
+        this.jsonUserStorageService = jsonUserStorageService;
+        this.excelUserStorageService = excelUserStorageService;
     }
 
     @Override
-    @Transactional
     public User processLinkedInUser(
             String linkedinId,
             String email,
@@ -28,73 +34,71 @@ public class UserServiceImpl implements UserService {
             String lastName,
             String name,
             String pictureUrl) {
-
-        if (linkedinId == null || linkedinId.trim().isEmpty()) {
-            throw new OAuthAuthenticationException("Missing LinkedIn subject identifier (sub).");
-        }
-        if (email == null || email.trim().isEmpty()) {
-            throw new OAuthAuthenticationException("Missing email address in LinkedIn profile claims.");
-        }
-
-        // 1. Look for existing user with this LinkedIn ID
-        Optional<User> existingByLinkedinId = userRepository.findByLinkedinId(linkedinId);
-        if (existingByLinkedinId.isPresent()) {
-            User user = existingByLinkedinId.get();
-            // Update profile fields if updated on LinkedIn
-            if (name != null) user.setName(name);
-            if (firstName != null) user.setFirstName(firstName);
-            if (lastName != null) user.setLastName(lastName);
-            if (pictureUrl != null) user.setPictureUrl(pictureUrl);
-            if (emailVerified != null) user.setEmailVerified(emailVerified);
-            return userRepository.save(user);
-        }
-
-        // 2. Look for existing user with same email (Account Linking)
-        Optional<User> existingByEmail = userRepository.findByEmail(email.toLowerCase().trim());
-        if (existingByEmail.isPresent()) {
-            User user = existingByEmail.get();
-            // Only link if LinkedIn guarantees email is verified
-            if (Boolean.TRUE.equals(emailVerified)) {
-                user.setLinkedinId(linkedinId);
-                if (pictureUrl != null && user.getPictureUrl() == null) {
-                    user.setPictureUrl(pictureUrl);
-                }
-                user.setEmailVerified(true);
-                return userRepository.save(user);
-            } else {
-                throw new OAuthAuthenticationException(
-                        "Cannot link account: LinkedIn email is unverified for address " + email);
-            }
-        }
-
-        // 3. New user registration
-        User newUser = new User(
+        User user = jsonUserStorageService.upsertUser(
                 linkedinId,
-                email.toLowerCase().trim(),
+                email,
+                emailVerified,
                 firstName,
                 lastName,
-                name != null ? name : (firstName + " " + lastName).trim(),
-                pictureUrl,
-                Boolean.TRUE.equals(emailVerified)
+                name,
+                pictureUrl
         );
-        return userRepository.save(newUser);
+
+        try {
+            excelUserStorageService.syncUserToExcel(user);
+        } catch (Exception e) {
+            log.error("Failed to sync user [{}] to Excel workbook, but JSON persistence succeeded: {}", user.getLinkedinId(), e.getMessage());
+        }
+
+        return user;
     }
 
     @Override
-    @Transactional(readOnly = true)
+    public User processLinkedInUser(
+            String linkedinId,
+            String email,
+            Boolean emailVerified,
+            String firstName,
+            String lastName,
+            String name,
+            String pictureUrl,
+            String linkedinProfileUrl) {
+
+        // 1. Upsert user in JSON storage
+        User user = jsonUserStorageService.upsertUser(
+                linkedinId,
+                email,
+                emailVerified,
+                firstName,
+                lastName,
+                name,
+                pictureUrl,
+                linkedinProfileUrl
+        );
+
+        // 2. Synchronize user to existing Excel workbook
+        try {
+            excelUserStorageService.syncUserToExcel(user);
+        } catch (Exception e) {
+            log.error("Failed to sync user [{}] to Excel workbook, but JSON persistence succeeded: {}", user.getLinkedinId(), e.getMessage());
+            // Do not fail user login if Excel write encounters an issue, or rethrow if strict
+        }
+
+        return user;
+    }
+
+    @Override
     public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+        return jsonUserStorageService.findById(id);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email.toLowerCase().trim());
+        return jsonUserStorageService.findByEmail(email);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<User> findByLinkedinId(String linkedinId) {
-        return userRepository.findByLinkedinId(linkedinId);
+        return jsonUserStorageService.findByLinkedinId(linkedinId);
     }
 }

@@ -1,7 +1,6 @@
 package com.hamarashops.auth.dto;
 
 import com.hamarashops.auth.model.entity.User;
-import java.time.LocalDateTime;
 
 public class UserResponse {
 
@@ -15,7 +14,11 @@ public class UserResponse {
     private Boolean emailVerified;
     private String provider;
     private String role;
-    private LocalDateTime createdAt;
+    private String createdAt;
+    private String updatedAt;
+    private String createdAtIst;
+    private String updatedAtIst;
+    private String linkedinProfileUrl;
 
     public UserResponse() {
     }
@@ -33,10 +36,21 @@ public class UserResponse {
         response.setEmail(user.getEmail());
         response.setPictureUrl(user.getPictureUrl());
         response.setEmailVerified(user.getEmailVerified());
+        response.setLinkedinProfileUrl(user.getLinkedinProfileUrl());
         response.setProvider(user.getProvider());
         response.setRole(user.getRole());
         response.setCreatedAt(user.getCreatedAt());
+        response.setUpdatedAt(user.getUpdatedAt());
+        response.setCreatedAtIst(formatUtcToIst(user.getCreatedAt()));
+        response.setUpdatedAtIst(formatUtcToIst(user.getUpdatedAt()));
         return response;
+    }
+
+    /**
+     * Converts an ISO-8601 UTC timestamp string to India Standard Time (IST, UTC+05:30) for display.
+     */
+    public static String formatUtcToIst(String utcIsoString) {
+        return com.hamarashops.auth.util.DateTimeUtil.formatToIst(utcIsoString);
     }
 
     public Long getId() {
@@ -119,11 +133,43 @@ public class UserResponse {
         this.role = role;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getCreatedAtIst() {
+        return createdAtIst;
+    }
+
+    public void setCreatedAtIst(String createdAtIst) {
+        this.createdAtIst = createdAtIst;
+    }
+
+    public String getUpdatedAtIst() {
+        return updatedAtIst;
+    }
+
+    public void setUpdatedAtIst(String updatedAtIst) {
+        this.updatedAtIst = updatedAtIst;
+    }
+
+    public String getLinkedinProfileUrl() {
+        return linkedinProfileUrl;
+    }
+
+    public void setLinkedinProfileUrl(String linkedinProfileUrl) {
+        this.linkedinProfileUrl = linkedinProfileUrl;
     }
 }

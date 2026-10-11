@@ -9,20 +9,25 @@ import com.hamarashops.auth.model.entity.User;
 import com.hamarashops.auth.service.JwtTokenService;
 import com.hamarashops.auth.service.LinkedInOidcService;
 import com.hamarashops.auth.service.UserService;
+import com.hamarashops.auth.storage.ExcelUserStorageService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -39,6 +44,7 @@ public class AuthController {
     private final LinkedInOidcService linkedInOidcService;
     private final UserService userService;
     private final JwtTokenService jwtTokenService;
+    private final ExcelUserStorageService excelUserStorageService;
     private final String frontendUrl;
     private final boolean cookieSecure;
 
@@ -46,11 +52,13 @@ public class AuthController {
             LinkedInOidcService linkedInOidcService,
             UserService userService,
             JwtTokenService jwtTokenService,
+            ExcelUserStorageService excelUserStorageService,
             @Value("${app.frontend-url:http://localhost:5173}") String frontendUrl,
             @Value("${app.cookie-secure:false}") boolean cookieSecure) {
         this.linkedInOidcService = linkedInOidcService;
         this.userService = userService;
         this.jwtTokenService = jwtTokenService;
+        this.excelUserStorageService = excelUserStorageService;
         this.frontendUrl = frontendUrl;
         this.cookieSecure = cookieSecure;
     }
@@ -177,7 +185,8 @@ public class AuthController {
                     profile.getFirstName(),
                     profile.getLastName(),
                     profile.getName(),
-                    profile.getPicture()
+                    profile.getPicture(),
+                    profile.getLinkedinProfileUrl()
             );
         } catch (Exception ex) {
             log.error("Error persisting user profile: {}", ex.getMessage());
@@ -225,6 +234,45 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return ResponseEntity.ok(UserResponse.fromEntity(user));
+    }
+
+    /**
+     * Authenticated Excel Workbook Download
+     * Returns the latest shared Companies_Details.xlsx workbook containing the updated 'LinkedIn Users' sheet.
+     */
+    @GetMapping("/download/excel")
+    public ResponseEntity<byte[]> downloadExcelWorkbook(Authentication authentication) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof User user)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            byte[] workbookBytes = excelUserStorageService.getLatestWorkbookBytes();
+            if (workbookBytes == null || workbookBytes.length == 0) {
+                log.warn("Excel workbook at {} is empty", excelUserStorageService.getExcelPath());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+            headers.setContentDisposition(ContentDisposition.attachment().filename("Companies_Details.xlsx").build());
+            headers.setContentLength(workbookBytes.length);
+            headers.setCacheControl(CacheControl.noCache().mustRevalidate());
+
+            log.info("Serving authenticated Excel download ({} bytes) for user [{}]", 
+                    workbookBytes.length, user.getLinkedinId());
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(workbookBytes);
+
+        } catch (FileNotFoundException ex) {
+            log.error("Excel workbook not found for download: {}", ex.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception ex) {
+            log.error("Failed to read Excel workbook for download: {}", ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**

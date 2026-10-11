@@ -219,4 +219,69 @@ public class LinkedInOidcServiceTest {
 
         assertTrue(ex.getMessage().contains("signature verification failed"));
     }
+
+    @Test
+    @DisplayName("Standard ID token without profile claim yields null linkedinProfileUrl (never fabricated)")
+    public void testVerifyIdTokenWithoutProfileClaimYieldsNullProfileUrl() throws Exception {
+        Date futureExp = Date.from(Instant.now().plusSeconds(3600));
+        String token = createTestIdToken("https://www.linkedin.com/oauth", "test-client-id", "mock-nonce-123", futureExp, testRsaKey);
+
+        LinkedInProfile profile = linkedInOidcService.verifyIdToken(token, "mock-nonce-123", testJwkSet);
+
+        assertNotNull(profile);
+        assertNull(profile.getLinkedinProfileUrl(), "linkedinProfileUrl must be null when not provided by LinkedIn");
+    }
+
+    @Test
+    @DisplayName("ID token with authorized LinkedIn profile claim extracts and validates profile URL")
+    public void testVerifyIdTokenWithValidProfileUrlClaimExtractsUrl() throws Exception {
+        Date futureExp = Date.from(Instant.now().plusSeconds(3600));
+        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .issuer("https://www.linkedin.com/oauth")
+                .audience("test-client-id")
+                .subject("urn:li:person:mock-sub-123")
+                .claim("email", "dev@hamarashops.ai")
+                .claim("email_verified", true)
+                .claim("name", "Dev User")
+                .claim("profile", "https://www.linkedin.com/in/devuser")
+                .issueTime(new Date())
+                .expirationTime(futureExp)
+                .build();
+
+        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(testRsaKey.getKeyID()).build();
+        SignedJWT signedJWT = new SignedJWT(header, claimsSet);
+        signedJWT.sign(new RSASSASigner(testRsaKey));
+        String token = signedJWT.serialize();
+
+        LinkedInProfile profile = linkedInOidcService.verifyIdToken(token, null, testJwkSet);
+
+        assertNotNull(profile);
+        assertEquals("https://www.linkedin.com/in/devuser", profile.getLinkedinProfileUrl());
+    }
+
+    @Test
+    @DisplayName("ID token with non-LinkedIn URL or invalid format is rejected and remains null (no guessed URLs)")
+    public void testVerifyIdTokenWithInvalidProfileUrlClaimRemainsNull() throws Exception {
+        Date futureExp = Date.from(Instant.now().plusSeconds(3600));
+        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .issuer("https://www.linkedin.com/oauth")
+                .audience("test-client-id")
+                .subject("urn:li:person:mock-sub-123")
+                .claim("email", "dev@hamarashops.ai")
+                .claim("email_verified", true)
+                .claim("profile", "https://malicious-site.com/profile")
+                .issueTime(new Date())
+                .expirationTime(futureExp)
+                .build();
+
+        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(testRsaKey.getKeyID()).build();
+        SignedJWT signedJWT = new SignedJWT(header, claimsSet);
+        signedJWT.sign(new RSASSASigner(testRsaKey));
+        String token = signedJWT.serialize();
+
+        LinkedInProfile profile = linkedInOidcService.verifyIdToken(token, null, testJwkSet);
+
+        assertNotNull(profile);
+        assertNull(profile.getLinkedinProfileUrl(), "Untrusted or invalid domain profile URLs must be discarded as null");
+    }
 }

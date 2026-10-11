@@ -35,10 +35,14 @@ spec:
               value: "https://hamarashops.com"
             - name: COOKIE_SECURE
               value: "true"
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql:///<DB_NAME>?cloudSqlInstance=<PROJECT_ID>:<REGION>:<INSTANCE_NAME>&socketFactory=com.google.cloud.sql.mysql.SocketFactory"
-            - name: SPRING_DATASOURCE_USERNAME
-              value: "<DB_USER>"
+            - name: STORAGE_TYPE
+              value: "GCS"
+            - name: GCS_BUCKET_NAME
+              value: "<GCS_BUCKET_NAME>"
+            - name: GCS_JSON_PATH
+              value: "auth/linkedin-users.json"
+            - name: GCS_EXCEL_PATH
+              value: "auth/Companies_Details.xlsx"
             - name: LINKEDIN_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -48,9 +52,4 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: jwt-secret
-                  key: latest
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: db-password
                   key: latest

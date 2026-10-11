@@ -15,6 +15,17 @@ public interface UserService {
             String pictureUrl
     );
 
+    User processLinkedInUser(
+            String linkedinId,
+            String email,
+            Boolean emailVerified,
+            String firstName,
+            String lastName,
+            String name,
+            String pictureUrl,
+            String linkedinProfileUrl
+    );
+
     Optional<User> findById(Long id);
 
     Optional<User> findByEmail(String email);

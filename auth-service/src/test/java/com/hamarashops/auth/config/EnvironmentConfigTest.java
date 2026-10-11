@@ -45,11 +45,22 @@ public class EnvironmentConfigTest {
         assertNotNull(frontendUrl, "app.frontend-url must be resolved");
         assertEquals("http://localhost:5173", frontendUrl);
 
+        String storageType = environment.getProperty("storage.type");
+        assertNotNull(storageType, "storage.type must be resolved");
+        assertEquals("LOCAL", storageType);
+
+        String jsonPath = environment.getProperty("storage.local.json-path");
+        assertNotNull(jsonPath, "storage.local.json-path must be resolved");
+
+        String excelPath = environment.getProperty("storage.local.excel-path");
+        assertNotNull(excelPath, "storage.local.excel-path must be resolved");
+
         // Safe status outputs conforming to prompt requirements (NEVER logging secret values)
         log.info("LINKEDIN_CLIENT_ID: CONFIGURED");
         log.info("LINKEDIN_CLIENT_SECRET: CONFIGURED");
         log.info("LINKEDIN_REDIRECT_URI: CONFIGURED");
         log.info("JWT_SECRET: CONFIGURED");
+        log.info("STORAGE_TYPE: CONFIGURED ({})", storageType);
         log.info("FRONTEND_URL: CONFIGURED");
     }
 }

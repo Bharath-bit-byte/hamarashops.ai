@@ -212,8 +212,8 @@ public class LinkedInOidcServiceImpl implements LinkedInOidcService {
         // Validate OIDC ID Token cryptographically against LinkedIn JWKS
         LinkedInProfile profile = verifyIdToken(idToken, expectedNonce);
 
-        // If email or picture is missing from ID token, fetch from userinfo endpoint
-        if (profile.getEmail() == null || profile.getPicture() == null) {
+        // If email, picture, or profile URL is missing from ID token, fetch from userinfo endpoint
+        if (profile.getEmail() == null || profile.getPicture() == null || profile.getLinkedinProfileUrl() == null) {
             enrichFromUserInfo(profile, accessToken);
         }
 
@@ -318,7 +318,15 @@ public class LinkedInOidcServiceImpl implements LinkedInOidcService {
             String name = parseStringClaim(claims.getClaim("name"));
             String picture = parseStringClaim(claims.getClaim("picture"));
 
-            return new LinkedInProfile(sub, email, emailVerified != null ? emailVerified : false, givenName, familyName, name, picture);
+            // Safely check for authorized LinkedIn profile URL or vanity name claims (never guess or fabricate)
+            String linkedinProfileUrl = extractValidProfileUrl(
+                    parseStringClaim(claims.getClaim("profile")),
+                    parseStringClaim(claims.getClaim("profile_url")),
+                    parseStringClaim(claims.getClaim("vanityName")),
+                    parseStringClaim(claims.getClaim("vanity_name"))
+            );
+
+            return new LinkedInProfile(sub, email, emailVerified != null ? emailVerified : false, givenName, familyName, name, picture, linkedinProfileUrl);
         } catch (Exception e) {
             throw new OAuthAuthenticationException("Failed to parse claims from ID token: " + e.getMessage(), e);
         }
@@ -350,10 +358,45 @@ public class LinkedInOidcServiceImpl implements LinkedInOidcService {
                 if (profile.getPicture() == null && userNode.has("picture")) {
                     profile.setPicture(userNode.get("picture").asText());
                 }
+                if (profile.getLinkedinProfileUrl() == null) {
+                    String urlFromUserInfo = extractValidProfileUrl(
+                            userNode.has("profile") ? userNode.get("profile").asText() : null,
+                            userNode.has("profile_url") ? userNode.get("profile_url").asText() : null,
+                            userNode.has("vanityName") ? userNode.get("vanityName").asText() : null,
+                            userNode.has("vanity_name") ? userNode.get("vanity_name").asText() : null
+                    );
+                    if (urlFromUserInfo != null) {
+                        profile.setLinkedinProfileUrl(urlFromUserInfo);
+                    }
+                }
             }
         } catch (Exception e) {
             log.warn("Failed to enrich user profile from LinkedIn userinfo endpoint: {}", e.getMessage());
         }
+    }
+
+    private String extractValidProfileUrl(String profileClaim, String profileUrlClaim, String vanityName, String vanityNameSnake) {
+        if (isValidLinkedInProfileUrl(profileClaim)) {
+            return profileClaim.trim();
+        }
+        if (isValidLinkedInProfileUrl(profileUrlClaim)) {
+            return profileUrlClaim.trim();
+        }
+        String vanity = (vanityName != null && !vanityName.isBlank()) ? vanityName.trim()
+                : (vanityNameSnake != null && !vanityNameSnake.isBlank()) ? vanityNameSnake.trim() : null;
+        if (vanity != null && !vanity.contains(" ") && !vanity.contains("/") && !vanity.contains("?")) {
+            return "https://www.linkedin.com/in/" + vanity;
+        }
+        return null;
+    }
+
+    private boolean isValidLinkedInProfileUrl(String url) {
+        if (url == null || url.isBlank()) {
+            return false;
+        }
+        String trimmed = url.trim();
+        return (trimmed.startsWith("https://") || trimmed.startsWith("http://"))
+                && (trimmed.contains("linkedin.com/in/") || trimmed.contains("linkedin.com/pub/"));
     }
 
     private synchronized JWKSet getJwks() {
